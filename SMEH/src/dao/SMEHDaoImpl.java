@@ -1,15 +1,14 @@
 package dao;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import bean.Usuario;
 
 @Repository
-public class SMEHDaoImpl implements SMEHDao {
+public interface SMEHDaoImpl {// implements SMEHDao {
 
-	@Override
-	public Usuario autenticar(Usuario usuario) {
-		return null;
-	}
+	@Select("Select UYC_USUARIO as usuario, UYC_CLAVE as clave from Login where UYC_USUARIO = '${usuario}' and UYC_CLAVE = '${clave}'")
+	public Usuario autenticar(Usuario usuario);
 
 }

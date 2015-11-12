@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+ 	
+	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
+	
     <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -42,7 +45,6 @@
 		    background: #F5F5F5;
 		    box-shadow: 0 0 4px rgba(0,0,0,.4);
 		    border-radius: 0;
-		    text-align: center;
 		    padding: 10px;
 		}
 		
@@ -107,53 +109,144 @@
 	    <div class="tab-content">
 	      <div class="tab-pane fade active in" id="home">
 	          <h2>Registro de Metadatos</h2>
-	          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTOEm34AVpTVEWIfT_gdL2ga_uuzvx0WmkDI4Ob2YE5NEgYuI4S" alt="Cats"/>
+				<jsp:include page="registrarMetadatos.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="profile">
 	          <h2>Informacion General de la Estacion</h2>
-	          <img src="http://lorempixel.com/400/400/cats/2" alt="Cats"/>
 	      </div>
 	      <div class="tab-pane fade" id="messages">
 	          <h2>Información de la Ubicación de la Estación</h2>
-	          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTOEm34AVpTVEWIfT_gdL2ga_uuzvx0WmkDI4Ob2YE5NEgYuI4S" alt="Cats"/>
 	      </div>
 	      <div class="tab-pane fade" id="settings">
 	          <h2>Información del Observador (incluye capacitación)</h2>
-	          <img src="http://lorempixel.com/400/400/cats/4" alt="Cats"/>
 	      </div>
 	      <div class="tab-pane fade" id="settings1">
 	          <h2> Información de los Instrumentos/Sensores</h2>
-	          <img src="http://lorempixel.com/400/400/cats/4" alt="Cats"/>
 	      </div>
 	      <div class="tab-pane fade" id="settings2">
 	          <h2>Informacion de la Instalación/Montaje de los Instrumentos de l Estación</h2>
-	          <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTOEm34AVpTVEWIfT_gdL2ga_uuzvx0WmkDI4Ob2YE5NEgYuI4S" alt="Cats"/>
 	      </div>
 	      <div class="tab-pane fade" id="settings3">
 	          <h2>Mapa</h2>
-	          <img src="http://lorempixel.com/400/400/cats/4" alt="Cats"/>
 	      </div>
 	    </div>
 	    
 	</div>
+	
+	<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<label id="lblHeader"></label>
+				</div>
+				<div class="modal-body">
+					<label id="lblMensaje"></label>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="btnAceptarPopup">Aceptar</button>
+				</div>
+			</div>
+		</div>
+	</div> 
   
     <script src="http://code.jquery.com/jquery.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	<script>
+	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 	
-		$(document).ready(function() {   		
-			initVariables();
-	    	initComponentes();
+	<script>
+		$(document).ready(function() {
+		    iniVariables();
+		    iniComponentes();
 		});
 		
-		function  initVariables(){
-			
-		}
+		var btnModal02Actua=null;
+		var tblRegistroMetadatos=null;
+
+		var txtFecha=null;
+		var txtDocuAuto=null;
+		var cmbResponsable=null;
+		var cmbMotivo=null;
+		var datos=null;
 		
+		//PopUp
+		var popup=null;		
+		var lblHeader=null;		
+		var lblMensaje=null;	
+		var btnAceptarPopup=null;		
 		
-		function initComponentes(){
-			
-		}
+	    function iniVariables(){
+	    	btnModal02Actua = $("#btnModal02Actua");
+	    	tblRegistroMetadatos=$("#tblRegistroMetadatos");
+	    	
+	    	txtFecha = $("#txtFecha");
+	    	txtDocuAuto = $("#txtDocuAuto");
+	    	cmbResponsable = $("#cmbResponsable");
+	    	cmbMotivo = $("#cmbMotivo");
+	    	
+	    	//popup
+	    	popup=$("#popup");
+	    	lblHeader=$("#lblHeader");
+	    	lblMensaje=$("#lblMensaje");
+	    	btnAceptarPopup = $("#btnAceptarPopup");
+	    	
+	    }
+		    
+		function iniComponentes(){
+		
+			lstResponsables = ${lstResponsables};
+			cmbResponsable.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	    	$.each(lstResponsables, function(i, item) {
+	    		cmbResponsable.append($("<option></option>").attr("value",lstResponsables[i].idResp).text(lstResponsables[i].nombre + ' ' + lstResponsables[i].apellido)); 
+	    	});
+	    	
+	    	lstMotivo = ${lstMotivo};
+	    	cmbMotivo.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	    	$.each(lstMotivo, function(i, item) {
+	    		cmbMotivo.append($("<option></option>").attr("value",lstMotivo[i].codigo).text(lstMotivo[i].descripcion)); 
+	    	});
+	    	
+	    	var lstMetadatos=${lstMetadatos};
+	    	getListaMetadatos(lstMetadatos);
+	   	  	
+	   		$('#tblRegistroMetadatos tbody').on( 'click', 'button', function () {
+	   			datos = tblRegistroMetadatos.DataTable().rows($(this).parents('tr')).data().toArray()[0];
+				txtFecha.val(datos.fecha);
+				txtDocuAuto.val(datos.autorizado);
+				cmbMotivo.val(datos.idMotivo);
+				cmbResponsable.val(datos.idResp);
+				$('#divModificarMetadata').modal('show');
+			} );
+	   		
+	   		btnAceptarPopup.bind("click",function(event) {
+	   			
+		   	  	//Iniciar Grilla
+            	popup.modal('hide');
+            	$('#divModificarMetadata').modal('hide');
+	   		} );
+	   		
+	   		btnModal02Actua.bind("click",function(event) {
+	   	    	$.ajax({
+	                url: "/SMEH/actualizarMetadatos",
+	                type: "POST",
+	                dataType: "json",
+            		async : false,
+        			cache : false,
+	                data : {
+	                	idMetadatos : datos.idMetadatos,
+	                	idMotivo : cmbMotivo.val(),
+	   	    			idResp : cmbResponsable.val()
+	                }
+	            }).done(function(paramJson) {
+	            	tblRegistroMetadatos.DataTable().destroy();
+	            	getListaMetadatos(paramJson);
+	            	mostrarPopUp('Mensaje','Actualizo correctamente.');
+	 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+	 				alert("No actualizo.");
+	  			});
+	 
+	   	  	});
+	   	        	  	
+	    }
 		
 		function getTab(){
 			setTimeout(function(){
@@ -164,13 +257,36 @@
 				restante=total-restar;
 				uno=restante/6;
 				
-	// 			alert(total);
-	// 			alert(restar);
-	// 			alert(restante);
-	// 			alert(uno);
 				$("li").width(uno+"px");
 				$("li.active").width("auto");
 			}, 50);
+		}
+		
+		function getListaMetadatos(lstMetadatos){
+			
+	   	  	//Iniciar Grilla
+	   	  	tblRegistroMetadatos.DataTable({
+		    	data:lstMetadatos,
+		    	columns: [
+		    	          {data:'fecha', sClass: 'text-left'},
+		    	          {data:'nombreCompleto', sClass: 'text-left'},
+		    	          {data:'autorizado', sClass: 'text-center'},
+		    	          {data:'motivo', sClass: 'text-left'},
+		    	          {
+		    	        	  data: null,
+		    	        	  defaultContent: '<button type="button" class="btn btn-primary">Modificar</button>', 
+		    	        	  sClass: 'text-center'
+		    	          }
+		    	         ],
+	 	       	    searching: false,
+	 	       	 	bLengthChange: false
+		    });
+		}
+		
+		function mostrarPopUp(title,message){
+			lblHeader.html(title);
+	       	lblMensaje.html(message);
+			popup.modal({backdrop: 'static', keyboard: false, show: true});
 		}
 	
 	</script>
