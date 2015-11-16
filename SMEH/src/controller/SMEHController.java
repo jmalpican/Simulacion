@@ -38,7 +38,7 @@ public class SMEHController {
 	}
 	
 	@RequestMapping("/iniciarSesion")
-	public String iniciarSesion(ModelMap mapa,HttpServletRequest request) {
+	public String iniciarSesion(ModelMap mapa, HttpServletRequest request) {
 		String usu = getValorParam(request, "usu");
 		String pass = getValorParam(request, "pass");
 		
