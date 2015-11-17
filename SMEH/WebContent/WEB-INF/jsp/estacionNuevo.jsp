@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <title></title>
@@ -32,41 +36,38 @@
             </div><!--/.container-fluid -->
         </nav>
 
-        <button class="btn btn-primary"
-                onclick="location.href='/estacion/nuevo'">Agregar estacion</button>
         <div>
-            <table id="estacion-table" class="display" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Alias</th>
-                    <th>Nombre</th>
-                    <th>Codigo Senamhi</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="estacion" items="${estaciones}">
-                    <tr>
-                        <td>
-                            ${estacion.id}
-                        </td>
-                        <td>${estacion.alias}</td>
-                        <td>${estacion.nombre}</td>
-                        <td>${estacion.codSenamhi}</td>
-                        <td>
-                            <spring:url value="/estacion/${estacion.id}/delete" var="deleteUrl" />
-                            <spring:url value="/estacion/${estacion.id}/update" var="updateUrl" />
-
-                            <button class="btn btn-primary"
-                                    onclick="location.href='${updateUrl}'">Update</button>
-                            <button class="btn btn-danger"
-                                    onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <h1> Agregar nueva estación</h1>
+            <spring:url value="/estacion/nuevo" var="estacionActionUrl" />
+            <form:form class="form-horizontal" method="post"
+                       modelAttribute="estacionForm" action="${estacionActionUrl}">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Alias</label>
+                    <div class="col-sm-10">
+                    <form:input path="alias" type="text" class="form-control"
+                                id="alias" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Nombre</label>
+                    <div class="col-sm-10">
+                    <form:input path="nombre" type="text" class="form-control"
+                                id="nombre" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Codigo Senamhi</label>
+                    <div class="col-sm-10">
+                    <form:input path="codSenamhi" type="text" class="form-control"
+                                id="codSenamhi" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Guardar</button>
+                    </div>
+                </div>
+            </form:form>
         </div>
 
     </div>

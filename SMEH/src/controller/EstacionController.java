@@ -1,5 +1,6 @@
 package controller;
 
+import bean.Estacion;
 import com.google.gson.Gson;
 import dao.EstacionDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,12 @@ public class EstacionController {
         return "estacion";
     }
 
-//    @RequestMapping(value="/estacion",method={RequestMethod.GET})
-//    public String estacionGetJSON() {
-//        estacionDao.getListAll();
-//        return "estaciones";
-//    }
+    @RequestMapping(value="/estacion/nuevo",method={RequestMethod.GET})
+    public String estacionNuevo(Model model) {
+        Estacion estacion = new Estacion();
+        model.addAttribute("estacionForm", estacion);
+        return "estacionNuevo";
+    }
 
 //    @RequestMapping(value="/estacion/nuevo",method={RequestMethod.GET})
 //    public String estacionGet(Model model) {
