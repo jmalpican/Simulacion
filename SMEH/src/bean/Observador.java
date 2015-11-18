@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Observador {
 
+    private Integer id;
     private String nombre;
     private Integer dni;
     private String celular;
@@ -14,6 +15,14 @@ public class Observador {
     private Date fechaIngreso;
     private String gradoInstruccion;
     private String otraOcupacion;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;

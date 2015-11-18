@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title></title>
@@ -35,7 +37,7 @@
     <button class="btn btn-primary"
             onclick="location.href='/observador/nuevo'">Agregar observador</button>
     <div>
-        <table id="estacion-table" class="display" cellspacing="0" width="100%">
+        <table id="observador-table" class="display" cellspacing="0" width="100%">
             <thead>
             <tr>
                 <th>Id</th>
@@ -55,11 +57,11 @@
                     <td>${observador.dni}</td>
                     <td>${observador.fechaIngreso}</td>
                     <td>
-                        <spring:url value="/estacion/${observador.id}/delete" var="deleteUrl" />
-                        <spring:url value="/estacion/${observador.id}/update" var="updateUrl" />
+                        <spring:url value="/observador/${observador.id}/capacitacion" var="capacitacionUrl" />
+                        <spring:url value="/observador/${observador.id}/del" var="deleteUrl" />
 
-                        <button class="btn btn-primary"
-                                onclick="location.href='${updateUrl}'">Update</button>
+                        <button class="btn btn-default"
+                                onclick="location.href='${capacitacionUrl}'">Capacitacion</button>
                         <button class="btn btn-danger"
                                 onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
                     </td>
@@ -70,9 +72,13 @@
     </div>
 
 </div>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#estacion-table').DataTable();
+        $('#observador-table').DataTable();
     } );
 </script>
 </body>
