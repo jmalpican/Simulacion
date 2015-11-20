@@ -12,7 +12,7 @@
  	
 	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
 	
-    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
+    <!-- librerï¿½as opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -90,12 +90,12 @@
 	      </li>
 	      <li class="test">
 	          <a href="#settings1" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Información de los Instrumentos/Sensores
+	              <i class="fa fa-cog"></i> Informaciï¿½n de los Instrumentos/Sensores
 	          </a>
 	      </li>
 	      <li class="test">
 	          <a href="#settings2" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informacion de la Instalación/Montaje de los Instrumentos de la Estación
+	              <i class="fa fa-cog"></i> Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n
 	          </a>
 	      </li>
 	      <li class="test">
@@ -115,16 +115,17 @@
 	          <h2>Informacion General de la Estacion</h2>
 	      </div>
 	      <div class="tab-pane fade" id="messages">
-	          <h2>Información de la Ubicación de la Estación</h2>
+	          <h2>Informaciï¿½n de la Ubicaciï¿½n de la Estaciï¿½n</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings">
-	          <h2>Información del Observador (incluye capacitación)</h2>
+	          <h2>Informaciï¿½n del Observador (incluye capacitaciï¿½n)</h2>
+              <jsp:include page="registrarObservador.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings1">
-	          <h2> Información de los Instrumentos/Sensores</h2>
+	          <h2> Informaciï¿½n de los Instrumentos/Sensores</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings2">
-	          <h2>Informacion de la Instalación/Montaje de los Instrumentos de l Estación</h2>
+	          <h2>Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de l Estaciï¿½n</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings3">
 	          <h2>Mapa</h2>
@@ -150,6 +151,8 @@
 	</div> 
   
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/js/jquery.autocomplete.js"></script>
+    <script src="/js/observador.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 	

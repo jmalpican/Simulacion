@@ -55,6 +55,12 @@ public class SMEHController {
 		}
 		return rspt;
 	}
+
+    @RequestMapping("/principal")
+    public String principal(ModelMap mapa,HttpServletRequest request) {
+
+        return "principal";
+    }
 	
 	private void cargarPestana1(ModelMap mapa) {
 		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
