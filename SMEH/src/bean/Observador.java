@@ -15,6 +15,7 @@ public class Observador {
     private Date fechaIngreso;
     private String gradoInstruccion;
     private String otraOcupacion;
+    private Integer estacionId;
 
     public Integer getId() {
         return id;
@@ -102,5 +103,13 @@ public class Observador {
 
     public void setOtraOcupacion(String otraOcupacion) {
         this.otraOcupacion = otraOcupacion;
+    }
+
+    public Integer getEstacionId() {
+        return estacionId;
+    }
+
+    public void setEstacionId(Integer estacionId) {
+        this.estacionId = estacionId;
     }
 }

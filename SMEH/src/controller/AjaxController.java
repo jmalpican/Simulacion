@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import service.CapacitacionService;
+import service.ObservadorService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class AjaxController {
 
     @Autowired
     CapacitacionService capacitacionService;
+
+    @Autowired
+    ObservadorService observadorService;
 
     @RequestMapping(value="/api/capacitacion/create")
     public String getSearchResultViaAjax(@RequestBody Capacitacion capacitacion) {
@@ -64,16 +68,11 @@ public class AjaxController {
     }
 
     @RequestMapping(value="/api/saveObservador",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String saveObservador(ModelMap mapa, HttpServletRequest request) throws Exception{
+    public @ResponseBody String saveObservador(HttpServletRequest request) throws Exception{
         System.out.println(request.getParameter("obsid"));
-        String id = request.getParameter("obsid");
         Observador observador = generateObservador(request);
-        if (StringUtils.hasText(id) ) {
-            observador.setId(Integer.valueOf(id));
-            //TODO actualizar
-        } else {
-            //TODO registrar
-        }
+
+        observadorService.saveOrUpdateObservador(observador);
 
         AjaxResponseBody result = new AjaxResponseBody();
         result.setMessage("");
@@ -84,19 +83,22 @@ public class AjaxController {
     @RequestMapping(value="/api/getObservador/estacion/{id}",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String saveObservador(@PathVariable int id, ModelMap mapa, HttpServletRequest request) throws Exception{
         System.out.println(id);
-        List<Observador> listObs = new ArrayList<Observador>();
-        Observador obs = new Observador();
-        obs.setId(1);
-        obs.setNombre("Manuel");
-        obs.setFechaIngreso(new Date());
-        obs.setDni(9919191);
-        listObs.add(obs);
-        return getJson(listObs);
+//        List<Observador> listObs = new ArrayList<Observador>();
+//        Observador obs = new Observador();
+//        obs.setId(1);
+//        obs.setNombre("Manuel");
+//        obs.setFechaIngreso(new Date());
+//        obs.setDni(9919191);
+//        listObs.add(obs);
+        List<Observador> observadorList = observadorService.getObservadoresPorEstacionId(id);
+        return getJson(observadorList);
     }
 
     private Observador generateObservador(HttpServletRequest request){
         String dni = request.getParameter("dni");
+        String id = request.getParameter("id");
         Observador observador = new Observador();
+        observador.setId(StringUtils.hasText(id) ? Integer.parseInt(id) : 0);
         observador.setNombre(request.getParameter("nombre"));
         observador.setDni(StringUtils.hasText(dni) ? Integer.parseInt(dni) : 0);
         observador.setCelular(request.getParameter("celular"));
@@ -106,6 +108,7 @@ public class AjaxController {
         observador.setMail(request.getParameter("mail"));
         observador.setGradoInstruccion(request.getParameter("gradoInstruccion"));
         observador.setOtraOcupacion(request.getParameter("otraOcupacion"));
+        observador.setEstacionId(Integer.parseInt(request.getParameter("estacionId")));
         return observador;
     }
 

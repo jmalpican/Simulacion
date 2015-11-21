@@ -1,7 +1,6 @@
 package controller;
 
 import bean.Capacitacion;
-import bean.Estacion;
 import bean.Observador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CapacitacionService;
 import service.ObservadorService;
 
@@ -59,31 +57,6 @@ public class ObservadorController {
 //        }
         model.addAttribute("capacitaciones", capacitaciones);
         return "observador/capacitacion";
-    }
-
-
-    @RequestMapping(value = "/observador", method = RequestMethod.POST)
-    public String saveOrUpdateUser(@ModelAttribute("observadorForm") Observador observador,
-                                   Model model) {
-
-//        if (result.hasErrors()) {
-//            populateDefaultModel(model);
-//            return "users/userform";
-//        } else {
-
-            // Add message to flash scope
-//            redirectAttributes.addFlashAttribute("css", "success");
-//            if(user.isNew()){
-//                redirectAttributes.addFlashAttribute("msg", "User added successfully!");
-//            }else{
-//                redirectAttributes.addFlashAttribute("msg", "User updated successfully!");
-//            }
-
-            observadorService.insertarObservador(observador);
-            return "redirect:/observador/" + observador.getId();
-
-//        }
-
     }
 
 }

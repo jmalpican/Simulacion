@@ -1,8 +1,13 @@
+var tableObs;
+
 $('#auto-obs').autocomplete({
     serviceUrl: '/api/getEstacion',
     onSelect: function (suggestion) {
+        if (tableObs) {
+            tableObs.destroy();
+        }
         document.getElementById("idest").value = suggestion.data;
-        searchObservadores(suggestion.data);
+        populateObservador();
     }
 });
 
@@ -12,13 +17,14 @@ $("#observador-form").submit(function(event) {
 
     var observador = {}
     observador["id"] = $("#idobs").val();
-    observador["estacion_id"] = $("#idest").val();
+    observador["estacionId"] = $("#idest").val();
     observador["nombre"] = $("#nombre").val();
     observador["dni"] = $("#dni").val();
-    observador["fijo"] = $("#fijo").val();
-    observador["celular"] = $("#celular").val();
-    observador["direccion"] = $("#direccion").val();
-    observador["referencia"] = $("#referencia").val();
+    observador["fijo"] = $("#fijo").val() || "";
+    observador["celular"] = $("#celular").val() || "";
+    observador["direccion"] = $("#direccion").val() || "";
+    observador["referencia"] = $("#referencia").val() || "";
+    observador["mail"] = $("#mail").val() || "";
 
     $.ajax({
         type : "POST",
@@ -29,8 +35,7 @@ $("#observador-form").submit(function(event) {
         success : function(data) {
             console.log("SUCCESS: ", data);
             resetForm();
-            destroyTable();
-            searchObservadores($("#idest").val());
+            tableObs.ajax.reload();
             alert(data.message);
         },
         error : function(e) {
@@ -39,38 +44,25 @@ $("#observador-form").submit(function(event) {
     });
 });
 
-var searchObservadores = function(estacionId) {
-    $.ajax({
-        type : "GET",
-        url : "/api/getObservador/estacion/"+estacionId,
-        dataType : 'json',
-        timeout : 100000,
-        success : function(data) {
-            console.log("SUCCESS: ", data);
-            populateObservador(data);
+var populateObservador = function(){
+    tableObs = $("#tblObservador").DataTable({
+        ajax: {
+            type : "GET",
+            url : "/api/getObservador/estacion/"+$("#idest").val(),
+            dataSrc: ""
         },
-        error : function(e) {
-            console.log("ERROR: ", e);
-        }
-    });
-}
-
-var populateObservador = function(data){
-    var table = $("#tblObservador").DataTable({
-        data:data,
         columns: [
             {data:'id', sClass: 'text-left'},
             {data:'nombre', sClass: 'text-left'},
-            {data:'dni', sClass: 'text-left'},
-            {data:'fechaIngreso', sClass: 'text-center'}
+            {data:'dni', sClass: 'text-left'}
         ],
         searching: false,
         bLengthChange: false
     });
 
     $('#tblObservador tbody').on( 'click', 'tr', function () {
-        console.log( table.row( this ).data() );
-        populateForm(table.row( this ).data());
+        console.log( tableObs.row( this ).data() );
+        populateForm(tableObs.row( this ).data());
     } );
 }
 

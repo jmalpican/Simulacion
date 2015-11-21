@@ -14,8 +14,12 @@ public class ObservadorServiceImpl implements ObservadorService {
     ObservadorMapper observadorMapper;
 
     @Override
-    public void insertarObservador(Observador observador) {
-        observadorMapper.insertarObservador(observador);
+    public void saveOrUpdateObservador(Observador observador) {
+        if (observador.getId() > 0) {
+            observadorMapper.actualizarObservador(observador);
+        } else {
+            observadorMapper.registrarObservador(observador);
+        }
     }
 
     @Override
@@ -26,5 +30,10 @@ public class ObservadorServiceImpl implements ObservadorService {
     @Override
     public Observador getObservadorPorId(int id) {
         return observadorMapper.getObservadorPorId(id);
+    }
+
+    @Override
+    public List<Observador> getObservadoresPorEstacionId(int id) {
+        return observadorMapper.getObservadoresPorEstacionId(id);
     }
 }

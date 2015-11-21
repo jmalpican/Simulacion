@@ -59,7 +59,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" onclick="resetForm()">Nuevo</button>
+                        <button type="button" class="btn btn-default" onclick="resetForm()">Nuevo</button>
                         <button type="submit" class="btn btn-default">Guardar</button>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Nombre</th>
-                    <th>Fecha Ingreso</th>
+                    <th>Dni</th>
                     <th> - </th>
                 </tr>
                 </thead>

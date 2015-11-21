@@ -7,10 +7,12 @@ import java.util.List;
 
 public interface ObservadorService {
 
-    void insertarObservador(Observador observador);
+    void saveOrUpdateObservador(Observador observador);
 
     List<Observador> getObservadores();
 
     Observador getObservadorPorId(int id);
+
+    List<Observador> getObservadoresPorEstacionId(int id);
 
 }
