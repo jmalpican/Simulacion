@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
@@ -28,5 +29,8 @@ public interface SMEHDao {
 
 	@Update("UPDATE METADATOS SET RDM_RESP=#{idResp}, ID_MOTIVO=#{idMotivo} WHERE id_metadatos = #{idMetadatos}")
 	void actualizarMetadatos(Metadatos metadatos);
+
+	@Insert("INSERT INTO ${tabla} (descripcion ) VALUES (#{descripcion} )")
+	void guardarCombo(Combo combo);
 
 }

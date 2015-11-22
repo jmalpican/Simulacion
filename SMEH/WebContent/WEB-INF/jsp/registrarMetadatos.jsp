@@ -48,6 +48,7 @@
 						<label  class="col-md-4 control-label">Responsable:</label>
 						<div class="col-md-8">
 							<select name="cmbResponsable" id="cmbResponsable" class="form-control"></select>
+							<button type="button" class="btn btn-primary" id="btnComboResp">Agregar Responsable</button>
 						</div>
 					</div>
 
@@ -57,13 +58,12 @@
 						<label class="col-md-4 control-label">Motivo:</label>
 						<div class="col-md-8">
 							<select name="cmbMotivo" id="cmbMotivo" class="form-control"></select>
+							<button type="button" class="btn btn-primary" id="btnComboMoti">Agregar Motivo</button>
 						</div>
 					</div>
 
 
 					</form>
-
-
 					
 				</div>
 				<div class="modal-footer">

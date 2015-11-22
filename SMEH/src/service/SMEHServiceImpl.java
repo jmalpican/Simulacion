@@ -42,4 +42,9 @@ public class SMEHServiceImpl implements SMEHService{
 		smehDao.actualizarMetadatos(metadatos);
 	}
 
+	@Override
+	public void guardarCombo(Combo combo) {
+		smehDao.guardarCombo(combo);
+	}
+
 }

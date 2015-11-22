@@ -101,6 +101,23 @@ public class SMEHController {
 		return getJson(lstMetadatos);
 	}
 	
+	@RequestMapping(value="/guardarCombo",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String guardarCombo(ModelMap mapa, HttpServletRequest request) throws Exception{
+		try {
+			Combo combo = new Combo();
+			combo.setCodigo(getValorParamInt(request, "codigo"));
+			combo.setDescripcion(getValorParam(request, "descripcion"));
+			combo.setTabla(getValorParam(request, "tabla"));
+			smehService.guardarCombo(combo);
+			
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+		
+		
+		return "true";
+	}
+	
 	private String getValorParam(HttpServletRequest request, String key) {
 		String rpta = null;
 		if (request.getParameter(key) != null && !"".equals(request.getParameter(key).trim())) {

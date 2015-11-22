@@ -11,6 +11,7 @@ public class Combo implements Serializable{
 	
 	private Integer codigo;
 	private String descripcion;
+	private String tabla;
 	
 	public Integer getCodigo() {
 		return codigo;
@@ -23,6 +24,12 @@ public class Combo implements Serializable{
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	public String getTabla() {
+		return tabla;
+	}
+	public void setTabla(String tabla) {
+		this.tabla = tabla;
 	}
 	
 	

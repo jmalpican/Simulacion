@@ -19,4 +19,6 @@ public interface SMEHService {
 
 	void actualizarMetadatos(Metadatos metadatos);
 
+	void guardarCombo(Combo combo);
+
 }

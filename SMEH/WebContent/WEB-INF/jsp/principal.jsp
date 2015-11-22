@@ -109,7 +109,7 @@
 	    <div class="tab-content">
 	      <div class="tab-pane fade active in" id="home">
 	          <h2>Registro de Metadatos</h2>
-				<jsp:include page="registrarMetadatos.jsp" />
+			  <jsp:include page="registrarMetadatos.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="profile">
 	          <h2>Informacion General de la Estacion</h2>
@@ -134,6 +134,8 @@
 	    
 	</div>
 	
+	<jsp:include page="combo.jsp" />
+	
 	<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -149,6 +151,8 @@
 			</div>
 		</div>
 	</div> 
+	
+	
   
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/js/jquery.autocomplete.js"></script>
@@ -163,6 +167,7 @@
 		});
 		
 		var btnModal02Actua=null;
+		var btnModal02Cancel=null;
 		var tblRegistroMetadatos=null;
 
 		var txtFecha=null;
@@ -175,10 +180,27 @@
 		var popup=null;		
 		var lblHeader=null;		
 		var lblMensaje=null;	
-		var btnAceptarPopup=null;		
+		var btnAceptarPopup=null;	
+		
+
+		var btnComboResp=null;	
+		var btnComboMoti=null;	
+		
+		//MODAL COMBO
+		var tabla=null;		
+		var divModalCombo=null;		
+		var divModalContenidoCombo=null;		
+		var h4TitleCombo=null;		
+		var lblTitleCombo=null;			
+		var txtCodigoCombo=null;		
+		var txtDescCombo=null;			
+		var btnModalComboGuardar=null;			
+		var btnModalComboCancel=null;		
+		
 		
 	    function iniVariables(){
 	    	btnModal02Actua = $("#btnModal02Actua");
+	    	btnModal02Cancel = $("#btnModal02Cancel");
 	    	tblRegistroMetadatos=$("#tblRegistroMetadatos");
 	    	
 	    	txtFecha = $("#txtFecha");
@@ -191,6 +213,21 @@
 	    	lblHeader=$("#lblHeader");
 	    	lblMensaje=$("#lblMensaje");
 	    	btnAceptarPopup = $("#btnAceptarPopup");
+	    	
+
+	    	btnComboResp = $("#btnComboResp");
+	    	btnComboMoti = $("#btnComboMoti");
+	    	
+	    	//popup
+	    	tabla=$("#tabla");
+	    	divModalCombo=$("#divModalCombo");
+	    	divModalContenidoCombo=$("#divModalContenidoCombo");
+	    	h4TitleCombo=$("#h4TitleCombo");
+	    	lblTitleCombo=$("#lblTitleCombo");
+	    	txtCodigoCombo=$("#txtCodigoCombo");
+	    	txtDescCombo=$("#txtDescCombo");
+	    	btnModalComboGuardar=$("#btnModalComboGuardar");
+	    	btnModalComboCancel=$("#btnModalComboCancel");
 	    	
 	    }
 		    
@@ -248,6 +285,46 @@
 	  			});
 	 
 	   	  	});
+	   		
+	   		btnModal02Cancel.bind("click",function(event) {
+	   			$('#divModificarMetadata').modal('hide');
+	   		} );
+	   		
+	   		//////////////////////////////////////////////Modal
+	   		btnModalComboGuardar.bind("click",function(event) {
+	   	    	$.ajax({
+	                url: "/SMEH/guardarCombo",
+	                type: "POST",
+	                dataType: "json",
+            		async : false,
+        			cache : false,
+	                data : {
+	                	tabla		: tabla.val(),
+	                	codigo 		: txtCodigoCombo.val(),
+	   	    			descripcion : txtDescCombo.val()
+	                }
+	            }).done(function(paramJson) {
+	            	divModalCombo.modal('hide');
+	 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+	 				alert("No actualizo.");
+	  			});
+	 
+	   	  	});
+	   		
+	   		btnModalComboCancel.bind("click",function(event) {
+	   			divModalCombo.modal('hide');
+	   		} );
+	   		
+	   		btnComboResp.bind("click",function(event) {
+	   			tabla.val('responsable');
+	   			modalCombo('Registrar Responsable');
+	   		} );
+	   		
+	   		btnComboMoti.bind("click",function(event) {
+	   			tabla.val('motivo');
+	   			modalCombo('Registrar Motivo');
+	   		} );
+	   		
 	   	        	  	
 	    }
 		
@@ -290,6 +367,13 @@
 			lblHeader.html(title);
 	       	lblMensaje.html(message);
 			popup.modal({backdrop: 'static', keyboard: false, show: true});
+		}
+		
+		function modalCombo(title){
+			lblTitleCombo.html(title);
+			txtCodigoCombo.val('');
+	    	txtDescCombo.val('');
+	       	divModalCombo.modal({backdrop: 'static', keyboard: false, show: true});
 		}
 	
 	</script>
