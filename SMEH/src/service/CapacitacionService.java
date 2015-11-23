@@ -7,10 +7,12 @@ import java.util.List;
 
 public interface CapacitacionService {
 
-    void insertarCapacitacion(Capacitacion capacitacion);
+    void saveOrUpdateCapacitacion(Capacitacion capacitacion);
 
     Capacitacion getCapacitacion(int id);
 
     List<Capacitacion> getCapacitacionesPorObservador(int id);
+
+    void eliminarCapacitacion(int id);
 
 }

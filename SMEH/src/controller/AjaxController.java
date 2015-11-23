@@ -12,6 +12,9 @@ import service.CapacitacionService;
 import service.ObservadorService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,27 +83,50 @@ public class AjaxController {
         return getJson(result);
     }
 
+    @RequestMapping(value="/api/saveCapacitacion",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String saveCapacitacion(HttpServletRequest request) throws Exception{
+        System.out.println(request.getParameter("observadorId"));
+
+        Capacitacion capacitacion = generateCapacitacion(request);
+        capacitacionService.saveOrUpdateCapacitacion(capacitacion);
+
+        AjaxResponseBody result = new AjaxResponseBody();
+        result.setMessage("La capacitacion fue registrada");
+        result.setCode("200");
+        return getJson(result);
+    }
+
     @RequestMapping(value="/api/getObservador/estacion/{id}",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String saveObservador(@PathVariable int id, ModelMap mapa, HttpServletRequest request) throws Exception{
-        System.out.println(id);
-//        List<Observador> listObs = new ArrayList<Observador>();
-//        Observador obs = new Observador();
-//        obs.setId(1);
-//        obs.setNombre("Manuel");
-//        obs.setFechaIngreso(new Date());
-//        obs.setDni(9919191);
-//        listObs.add(obs);
+    public @ResponseBody String getObservadores(@PathVariable int id, ModelMap mapa, HttpServletRequest request) throws Exception{
         List<Observador> observadorList = observadorService.getObservadoresPorEstacionId(id);
         return getJson(observadorList);
     }
 
-    private Observador generateObservador(HttpServletRequest request){
+    @RequestMapping(value="/api/getCapacitacion/observador/{id}",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String getCapacitaciones(@PathVariable int id, ModelMap mapa, HttpServletRequest request) throws Exception{
+        List<Capacitacion> capacitacionList = capacitacionService.getCapacitacionesPorObservador(id);
+        return getJson(capacitacionList);
+    }
+
+    @RequestMapping(value="/api/capacitacion/{id}",method={RequestMethod.DELETE},produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String delCapacitacion(@PathVariable int id, HttpServletRequest request) throws Exception{
+        capacitacionService.eliminarCapacitacion(id);
+
+        AjaxResponseBody result = new AjaxResponseBody();
+        result.setMessage("La capacitacion fue eliminada");
+        result.setCode("200");
+        return getJson(result);
+    }
+
+    private Observador generateObservador(HttpServletRequest request) throws ParseException {
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String dni = request.getParameter("dni");
         String id = request.getParameter("id");
         Observador observador = new Observador();
         observador.setId(StringUtils.hasText(id) ? Integer.parseInt(id) : 0);
         observador.setNombre(request.getParameter("nombre"));
         observador.setDni(StringUtils.hasText(dni) ? Integer.parseInt(dni) : 0);
+        observador.setFechaIngreso(format.parse(request.getParameter("fechaIngreso")));
         observador.setCelular(request.getParameter("celular"));
         observador.setFijo(request.getParameter("fijo"));
         observador.setDireccion(request.getParameter("direccion"));
@@ -110,6 +136,18 @@ public class AjaxController {
         observador.setOtraOcupacion(request.getParameter("otraOcupacion"));
         observador.setEstacionId(Integer.parseInt(request.getParameter("estacionId")));
         return observador;
+    }
+
+    private Capacitacion generateCapacitacion(HttpServletRequest request){
+        Capacitacion capacitacion = new Capacitacion();
+        capacitacion.setObservadorId(Integer.parseInt(request.getParameter("observadorId")));
+        capacitacion.setNombre(request.getParameter("nombre"));
+        capacitacion.setDuracion(request.getParameter("duracion"));
+        capacitacion.setLugar(request.getParameter("lugar"));
+        capacitacion.setOrganizador(request.getParameter("organizador"));
+        capacitacion.setCertificado(request.getParameter("certificado"));
+        capacitacion.setObservacion(request.getParameter("observacion"));
+        return capacitacion;
     }
 
     private String getJson(Object object) {

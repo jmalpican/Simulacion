@@ -11,6 +11,7 @@
  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
  	
 	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
+      <link href="/js/pikaday.css" rel="stylesheet">
 	
     <!-- librer�as opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
@@ -155,10 +156,12 @@
 	
   
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script src="/js/jquery.autocomplete.js"></script>
+    <script src="/js/pikaday.js"></script>
     <script src="/js/observador.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 	
 	<script>
 		$(document).ready(function() {

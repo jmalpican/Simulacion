@@ -12,6 +12,7 @@ public class Capacitacion {
     private String certificado;
     private String organizador;
     private String observacion;
+    private Integer observadorId;
 
     public Integer getId() {
         return id;
@@ -75,5 +76,13 @@ public class Capacitacion {
 
     public void setObservacion(String observacion) {
         this.observacion = observacion;
+    }
+
+    public Integer getObservadorId() {
+        return observadorId;
+    }
+
+    public void setObservadorId(Integer observadorId) {
+        this.observadorId = observadorId;
     }
 }

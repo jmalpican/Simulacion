@@ -12,8 +12,8 @@ import java.util.List;
 public interface ObservadorMapper {
 
     @Insert("INSERT INTO observador(id, nombre, dni, celular,"
-            + "fijo, direccion, referencia, mail, estacion_id) VALUES"
-            + "(#{id}, #{nombre}, #{dni}, #{celular}, #{fijo}, #{direccion},"
+            + "fijo, direccion, fecha_ingreso, referencia, mail, estacion_id) VALUES"
+            + "(#{id}, #{nombre}, #{dni}, #{celular}, #{fijo}, #{direccion}, #{fechaIngreso},"
             + "#{referencia}, #{mail}, #{estacionId})")
     @SelectKey(
             keyProperty = "id",
@@ -23,8 +23,8 @@ public interface ObservadorMapper {
     void registrarObservador(Observador observador);
 
     @Update("UPDATE observador SET nombre=#{nombre}, dni=#{dni}, celular=#{celular},"
-            + "fijo=#{fijo}, direccion=#{direccion}, referencia=#{referencia}, mail=#{mail}"
-            + "WHERE id=#{id}")
+            + "fijo=#{fijo}, direccion=#{direccion}, referencia=#{referencia}, mail=#{mail},"
+            + "fecha_ingreso=#{fechaIngreso} WHERE id=#{id}")
     void actualizarObservador(Observador observador);
 
     @Select("SELECT id, nombre, dni, fecha_ingreso as fechaIngreso FROM observador")
