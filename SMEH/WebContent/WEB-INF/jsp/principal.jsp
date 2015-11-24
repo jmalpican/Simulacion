@@ -114,6 +114,7 @@
 	      </div>
 	      <div class="tab-pane fade" id="profile">
 	          <h2>Informacion General de la Estacion</h2>
+	           <jsp:include page="informacionGeneralEstacion.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="messages">
 	          <h2>Informaci�n de la Ubicaci�n de la Estaci�n</h2>

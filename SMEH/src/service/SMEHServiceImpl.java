@@ -5,9 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bean.Capacitacion;
 import bean.Combo;
+import bean.Estacion;
 import bean.Metadatos;
 import bean.Responsable;
+import bean.SubEstacion;
+import bean.SubEstacion2;
+import bean.SubEstacion3;
 import bean.Usuario;
 import dao.SMEHDao;
 
@@ -46,5 +51,56 @@ public class SMEHServiceImpl implements SMEHService{
 	public void guardarCombo(Combo combo) {
 		smehDao.guardarCombo(combo);
 	}
+
+	@Override
+	public void registrarEstacion(Estacion estacion) {
+		// TODO Auto-generated method stub
+		smehDao.registrarEstacion(estacion);
+	}
+
+	@Override
+	public List<Combo> getListAllSituacionLegal() {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllSituacionLegal();
+	}
+
+	@Override
+	public List<Combo> getListAllTipoEstacion() {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllTipoEstacion();
+	}
+
+	@Override
+	public List<Combo> getListAllPropositoRed() {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllPropositoRed();
+	}
+
+	@Override
+	public List<Combo> getListAllClasificacionEstacion() {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllClasificacionEstacion();
+	}
+
+	@Override
+	public List<SubEstacion> getListAllSubEstacion1(int codigo) {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllSubEstacion1(codigo);
+	}
+
+	@Override
+	public List<SubEstacion2> getListAllSubEstacion2(int codigo) {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllSubEstacion2(codigo);
+	}
+
+	@Override
+	public List<SubEstacion3> getListAllSubEstacion3(int codigo) {
+		// TODO Auto-generated method stub
+		return smehDao.getListAllSubEstacion3(codigo);
+	}
+
+
+    
 
 }

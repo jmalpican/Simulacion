@@ -1,6 +1,9 @@
 package controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import bean.Combo;
+import bean.Estacion;
 import bean.Metadatos;
 import bean.Responsable;
+import bean.SubEstacion;
+import bean.SubEstacion2;
+import bean.SubEstacion3;
 import bean.Usuario;
 
 import service.SMEHService;
@@ -46,12 +53,13 @@ public class SMEHController {
 		usuario.setUsuario(usu);
 		usuario.setClave(pass);
 		
-		usuario = smehService.autenticar(usuario);
+		//usuario = smehService.autenticar(usuario);
 		
 		String rspt = "login";
 		if (usuario != null) {
 			cargarPestana1(mapa);
 			rspt = "principal";
+			
 		}
 		return rspt;
 	}
@@ -63,7 +71,7 @@ public class SMEHController {
     }
 	
 	private void cargarPestana1(ModelMap mapa) {
-		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
+	/*	List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
 		lstMetadatos = smehService.getListAll();
 		
 		List<Responsable> lstResponsables = new ArrayList<Responsable>();
@@ -76,7 +84,36 @@ public class SMEHController {
 		
 		mapa.addAttribute("lstMotivo",getJson(lstMotivo));
 		
-		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));
+		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));*/
+		
+		List<Combo> lstSituacionLegal = new ArrayList<Combo>();
+		lstSituacionLegal = smehService.getListAllSituacionLegal();
+		mapa.addAttribute("lstSituacionLegal",getJson(lstSituacionLegal));
+		
+		List<Combo> lstTipoEstacion = new ArrayList<Combo>();
+		lstTipoEstacion = smehService.getListAllTipoEstacion();
+		mapa.addAttribute("lstTipoEstacion",getJson(lstTipoEstacion));
+		
+		List<Combo> lstPropositoRed = new ArrayList<Combo>();
+		lstPropositoRed = smehService.getListAllPropositoRed();
+		mapa.addAttribute("lstPropositoRed",getJson(lstPropositoRed));
+		
+		List<Combo> lstClasificacionEstacion = new ArrayList<Combo>();
+		lstClasificacionEstacion = smehService.getListAllClasificacionEstacion();
+		mapa.addAttribute("lstClasificacionEstacion",getJson(lstClasificacionEstacion));
+		
+		List<SubEstacion> lstSubEstacion1 = new ArrayList<SubEstacion>();
+		lstSubEstacion1 = smehService.getListAllSubEstacion1(1);
+		mapa.addAttribute("lstSubEstacion1",getJson(lstSubEstacion1));
+	
+		List<SubEstacion2> lstSubEstacion2 = new ArrayList<SubEstacion2>();
+		lstSubEstacion2 = smehService.getListAllSubEstacion2(1);
+		mapa.addAttribute("lstSubEstacion2",getJson(lstSubEstacion2));
+		
+		List<SubEstacion3> lstSubEstacion3 = new ArrayList<SubEstacion3>();
+		lstSubEstacion3 = smehService.getListAllSubEstacion3(1);
+		mapa.addAttribute("lstSubEstacion3",getJson(lstSubEstacion3));
+		
 		
 	}
 
@@ -116,6 +153,93 @@ public class SMEHController {
 		
 		
 		return "true";
+	}
+	
+	@RequestMapping(value="/registrarInformacionEstacion",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String registrarInformacionEstacion(ModelMap mapa, HttpServletRequest request) throws Exception{
+
+		String resultado = "0";
+		Estacion estacion = new Estacion();
+		try {
+
+        	
+        	
+			String nombreEstacion = getValorParam(request, "nombreEstacion");
+			String alias = getValorParam(request, "alias");
+			String codigoSenamhi = getValorParam(request, "codigoSenamhi");
+		    String codigoOmm = getValorParam(request, "codigoOmm");
+			String otroCodigo = getValorParam(request, "otroCodigo");
+			String tipoClasEstacion = getValorParam(request, "tipoClasEstacion");
+			String tipoSubClasEstacion1 = getValorParam(request, "tipoSubClasEstacion1");
+			String tipoSubClasEstacion2 = getValorParam(request, "tipoSubClasEstacion2");
+			String tipoSubClasEstacion3 = getValorParam(request, "tipoSubClasEstacion3");
+			String tipoEstacion = getValorParam(request, "tipoEstacion");
+			String mixta = getValorParam(request, "mixta");
+			String fecIni = getValorParam(request, "fecIni");
+			String autorizacionIni = getValorParam(request, "autorizacionIni");
+			String fecFin = getValorParam(request, "fecFin");
+			String autorizacionFin = getValorParam(request, "autorizacionFin");
+			String propiedadEstacion = getValorParam(request, "propiedadEstacion");
+			String tipoSituacion = getValorParam(request, "tipoSituacion");
+			String nombreRed = getValorParam(request, "nombreRed");
+			String tipoestacionRed = getValorParam(request, "tipoestacionRed");
+		
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		      
+	         Date fechaInicio = df.parse(fecIni);     
+	         Date fechaFin = df.parse(fecFin);    
+	         
+	     	System.out.println("nombreEstacion: "  + nombreEstacion);
+			System.out.println("alias: "  + alias);
+			System.out.println("codigoSenamhi: "  + codigoSenamhi);
+			System.out.println("codigoOmm: "  + codigoOmm);
+			System.out.println("otroCodigo: "  + otroCodigo);
+			System.out.println("mixta: "  + mixta);
+			//System.out.println("fechaInicio: "  + fechaInicio);
+			System.out.println("autorizacionIni: "  + autorizacionIni);
+		//	System.out.println("fechaFin: "  + fechaFin);
+			System.out.println("autorizacionFin: "  + autorizacionFin);
+			System.out.println("propiedadEstacion: "  + propiedadEstacion);
+			System.out.println("tipoSituacion: "  + tipoSituacion);
+			System.out.println("tipoClasEstacion: " + tipoClasEstacion);
+			System.out.println("tipoSubClasEstacion1: " + tipoSubClasEstacion1);
+			System.out.println("tipoSubClasEstacion2: " + tipoSubClasEstacion2);
+			System.out.println("tipoSubClasEstacion3: " + tipoSubClasEstacion3);
+			System.out.println("nombreRed: " + nombreRed);
+			System.out.println("tipoestacionRed: " + tipoestacionRed);
+			
+			estacion.setNombre(nombreEstacion);
+			estacion.setAlias(alias);
+			estacion.setCodSenamhi(codigoSenamhi);
+			estacion.setCodOmn(codigoOmm);
+			estacion.setCodOtro(otroCodigo);
+			estacion.setClasificacion(Integer.parseInt(tipoClasEstacion));
+			estacion.setSub1estacion(Integer.parseInt(tipoSubClasEstacion1));
+			estacion.setSub2estacion(Integer.parseInt(tipoSubClasEstacion2));
+			estacion.setSub3estacion(Integer.parseInt(tipoSubClasEstacion3));
+			estacion.setTipoEstacion(Integer.parseInt(tipoEstacion));
+			estacion.setEstacionMixt(mixta);
+			estacion.setfInicio(fechaInicio);
+			estacion.setAutorizacionIni(autorizacionIni);
+			estacion.setfCierre(fechaFin);
+			estacion.setAutorizacionCierre(autorizacionFin);
+			estacion.setPropiedad(propiedadEstacion);
+			estacion.setSituacionLegal(tipoSituacion);
+			estacion.setNombreRed(nombreRed);
+			estacion.setPropositoEstacionRed(Integer.parseInt(tipoestacionRed));
+			 
+		
+			
+		  smehService.registrarEstacion(estacion);
+            resultado = "1";
+	    	
+		} catch (Exception e) {
+	
+			e.printStackTrace();
+		}
+		
+		return getJson(resultado);
+		
 	}
 	
 	private String getValorParam(HttpServletRequest request, String key) {

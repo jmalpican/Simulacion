@@ -1,15 +1,22 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import bean.Combo;
+import bean.Estacion;
 import bean.Metadatos;
+import bean.Observador;
 import bean.Responsable;
+import bean.SubEstacion;
+import bean.SubEstacion2;
+import bean.SubEstacion3;
 import bean.Usuario;
 
 @Component
@@ -32,5 +39,49 @@ public interface SMEHDao {
 
 	@Insert("INSERT INTO ${tabla} (descripcion ) VALUES (#{descripcion} )")
 	void guardarCombo(Combo combo);
+
+	
+	
+	@Insert("INSERT INTO Estacion(ID, NOMBRE, ALIAS, COD_SENAMHI, " +
+	 		" COD_OMM,COD_OTRO,COD_CLASESTAC,COD_SUB1ESTAC,COD_SUB2ESTAC,COD_SUB3ESTAC, " +
+	 		" TIPO_ESTAC,ESTAC_MIXTA,FEC_INI,AUTORIZA_INI,FEC_FIN,AUTORIZA_FIN,PROPIEDAD,SITUACION_LEGAL,NOMBRE_RED,PROPOSITO_RED) VALUES"
+	            + "(#{id}, #{nombre}, #{alias}, #{codSenamhi}," +
+	            "#{codOmn},#{codOtro},#{clasificacion},#{sub1estacion},#{sub2estacion},#{sub3estacion}," +
+	            "#{tipoEstacion},#{estacionMixt},#{fInicio},#{autorizacionIni},#{fCierre},#{autorizacionCierre}," +
+	            "#{propiedad},#{situacionLegal},#{nombreRed},#{propositoEstacionRed}" +
+	            ")")
+	 
+	
+   /* @Insert("INSERT INTO Estacion(ID, NOMBRE, ALIAS, COD_SENAMHI) VALUES"
+            + "(#{id}, #{nombre}, #{alias}, #{codSenamhi})")*/
+    @SelectKey(
+            keyProperty = "id",
+            before = true,
+            resultType = Integer.class,
+            statement = { "SELECT estacion_seq.nextval AS id FROM dual" })
+    void registrarEstacion(Estacion estacion);
+    
+    
+	@Select("SELECT codigo, descripcion FROM SITUACION_LEGAL")
+	List<Combo> getListAllSituacionLegal();
+
+	@Select("SELECT codigo, descripcion FROM TIPO_ESTACION")
+	List<Combo> getListAllTipoEstacion();
+	
+	@Select("SELECT codigo, descripcion FROM PROPOSITO_RED")
+	List<Combo> getListAllPropositoRed();
+	
+	
+	@Select("SELECT codigo, descripcion FROM CLASIFICACION_ESTACION")
+	List<Combo> getListAllClasificacionEstacion();
+
+	@Select("SELECT CODIGO_SUB, descripcion FROM SUB_ESTACION1 where CODIGO = #{codigo}")
+	List<SubEstacion> getListAllSubEstacion1(int codigo);
+	
+	@Select("SELECT CODIGO_SUB2, descripcion FROM SUB_ESTACION2 where CODIGO_SUB = #{codigo_sub}")
+	List<SubEstacion2> getListAllSubEstacion2(int codigo);
+	
+	@Select("SELECT CODIGO_SUB3, descripcion FROM SUB_ESTACION3 where CODIGO_SUB2 = #{codigo_sub}")
+	List<SubEstacion3> getListAllSubEstacion3(int codigo);
 
 }
