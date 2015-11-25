@@ -59,6 +59,14 @@
 		}
 		
 		.test{}
+
+        .error_box {
+            display: none;
+            background-color: #f2dede;
+            text-align: left;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
     
     </style>
     
@@ -161,6 +169,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script src="/js/jquery.autocomplete.js"></script>
+    <script src="/js/parsley.min.js"></script>
     <script src="/js/pikaday.js"></script>
     <script src="/js/observador.js"></script>
 	

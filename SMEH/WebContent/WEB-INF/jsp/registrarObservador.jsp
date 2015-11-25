@@ -8,6 +8,7 @@
 
         <div>
             <h1>Observador</h1>
+            <div class="error_box"></div>
             <form class="form-horizontal" id="observador-form">
                 <input id="idest" type="hidden" />
                 <input id="idobs" type="hidden" />
@@ -15,14 +16,14 @@
                     <label class="col-sm-2 control-label">Nombre</label>
                     <div class="col-sm-10">
                         <input path="nombre" type="text" class="form-control"
-                                    id="nombre" />
+                                    id="nombre" required=""/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Dni</label>
                     <div class="col-sm-10">
                         <input path="dni" type="text" class="form-control"
-                                    id="dni" />
+                                    id="dni" required=""/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -43,7 +44,7 @@
                     <label class="col-sm-2 control-label">Fecha ingreso</label>
                     <div class="col-sm-10">
                         <input path="mail" type="text" class="form-control"
-                               id="fechaIngreso" />
+                               id="fechaIngreso" required=""/>
                     </div>
                 </div>
                 <div class="form-group">

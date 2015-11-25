@@ -1,5 +1,6 @@
 var tableObs;
 var tableCap;
+var SELECTOR_ERRORS = $('.error_box');
 
 var pickerFechaIngreso = new Pikaday({
     field: document.getElementById('fechaIngreso'),
@@ -23,34 +24,39 @@ $("#observador-form").submit(function(event) {
     // Prevent the form from submitting via the browser.
     event.preventDefault();
 
-    var observador = {}
-    observador["id"] = $("#idobs").val();
-    observador["estacionId"] = $("#idest").val();
-    observador["nombre"] = $("#nombre").val();
-    observador["dni"] = $("#dni").val();
-    observador["fijo"] = $("#fijo").val() || "";
-    observador["celular"] = $("#celular").val() || "";
-    observador["direccion"] = $("#direccion").val() || "";
-    observador["referencia"] = $("#referencia").val() || "";
-    observador["mail"] = $("#mail").val() || "";
-    observador["fechaIngreso"] = pickerFechaIngreso.toString('DD-MM-YYYY');
+    $('#observador-form').parsley().validate();
+    if (true === $('#observador-form').parsley().isValid()) {
 
-    $.ajax({
-        type : "POST",
-        url : "/api/saveObservador",
-        data : observador,
-        dataType : 'json',
-        timeout : 100000,
-        success : function(data) {
-            console.log("SUCCESS: ", data);
-            resetForm();
-            tableObs.ajax.reload();
-            alert(data.message);
-        },
-        error : function(e) {
-            console.log("ERROR: ", e);
-        }
-    });
+        var observador = {}
+        observador["id"] = $("#idobs").val();
+        observador["estacionId"] = $("#idest").val();
+        observador["nombre"] = $("#nombre").val();
+        observador["dni"] = $("#dni").val();
+        observador["fijo"] = $("#fijo").val() || "";
+        observador["celular"] = $("#celular").val() || "";
+        observador["direccion"] = $("#direccion").val() || "";
+        observador["referencia"] = $("#referencia").val() || "";
+        observador["mail"] = $("#mail").val() || "";
+        observador["fechaIngreso"] = pickerFechaIngreso.toString('DD-MM-YYYY');
+
+        $.ajax({
+            type : "POST",
+            url : "/api/saveObservador",
+            data : observador,
+            dataType : 'json',
+            timeout : 100000,
+            success : function(data) {
+                console.log("SUCCESS: ", data);
+                resetForm();
+                tableObs.ajax.reload();
+                alert(data.message);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            }
+        });
+    }
+
 });
 
 var populateObservador = function(){
@@ -107,6 +113,7 @@ var populateForm = function(data){
 var resetForm = function(){
     document.getElementById("idobs").value = "";
     document.getElementById("observador-form").reset();
+    SELECTOR_ERRORS.css({ display: 'none' });
 }
 
 var destroyTable = function(){
