@@ -51,9 +51,7 @@ public interface SMEHDao {
 	            "#{propiedad},#{situacionLegal},#{nombreRed},#{propositoEstacionRed}" +
 	            ")")
 	 
-	
-   /* @Insert("INSERT INTO Estacion(ID, NOMBRE, ALIAS, COD_SENAMHI) VALUES"
-            + "(#{id}, #{nombre}, #{alias}, #{codSenamhi})")*/
+
     @SelectKey(
             keyProperty = "id",
             before = true,

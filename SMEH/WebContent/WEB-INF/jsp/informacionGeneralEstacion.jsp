@@ -9,14 +9,8 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
- 	
 	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
-	
-    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+ 
     
     <style type="text/css">
 	    body {
@@ -109,13 +103,15 @@
     <script src="http://code.jquery.com/jquery.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-  
 
-	
+    
+       
 	<script>
 		$(document).ready(function() {
 		
-			 Limpiar();
+			
+		    Limpiar();
+		  
 			var cmbSituacionLegal=null;
 			var cmbClasfEstacion=null;
 			var cmbSubClasfEstacion1=null;
@@ -124,8 +120,8 @@
 			var cmbEstacionRed=null;
 			var cmbTipoEstacion=null;
 			var cmbMixta =null;
-			
 			var estacionName =null;
+			
 			estacionName = $("#estacionName");
 			
 			var alias = $("#alias");
@@ -140,49 +136,115 @@
 			var nombreRed = $("#nombreRed");
 			
 			
-			cmbSituacionLegal = $("#cmbSituacionLegal");
 			
-			lstSituacionLegal = ${lstSituacionLegal};
-			cmbSituacionLegal.append($("<option></option>").attr("value","000").text("Seleccionar"));
-	    	$.each(lstSituacionLegal, function(i, item) {
-	    		cmbSituacionLegal.append($("<option></option>").attr("value",lstSituacionLegal[i].codigo).text(lstSituacionLegal[i].descripcion)); 
-	    	});
-	    	
-	
-				
 			cmbClasfEstacion = $("#cmbClasfEstacion");
-	    	
 	    	lstClasificacionEstacion = ${lstClasificacionEstacion};
 	    	cmbClasfEstacion.append($("<option></option>").attr("value","000").text("Seleccionar"));
 	    	$.each(lstClasificacionEstacion, function(i, item) {
 	    		cmbClasfEstacion.append($("<option></option>").attr("value",lstClasificacionEstacion[i].codigo).text(lstClasificacionEstacion[i].descripcion)); 
 	    	});
 	    	
-
-			
+	    	
 			cmbSubClasfEstacion1 = $("#cmbSubClasfEstacion1");
 			lstSubEstacion1 = ${lstSubEstacion1};
-			cmbSubClasfEstacion1.append($("<option></option>").attr("value","000").text("Seleccionar"));
-	    	$.each(lstSubEstacion1, function(i, item) {
-	    		cmbSubClasfEstacion1.append($("<option></option>").attr("value",lstSubEstacion1[i].codigo_sub).text(lstSubEstacion1[i].descripcion)); 
-	    	});
-		
-			
-			cmbSubClasfEstacion2 = $("#cmbSubClasfEstacion2");
+    	    cmbSubClasfEstacion1.append($("<option></option>").attr("value","000").text("Seleccionar"));
+			/*-----------------------------------------*/
+			$('#cmbClasfEstacion').change(function() {   
+				
+				  $.ajax({
+		                url: "/SMEH/selectComboClasificacion",
+		                type: "GET",
+		                dataType: "json",
+	            		async : false,
+	        			cache : false,
+		                data : {codigo : cmbClasfEstacion.val()},
+		                success: function(objJson) {
+	                	       cmbSubClasfEstacion1.empty();
+	                	       cmbSubClasfEstacion1.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	                	       cmbSubClasfEstacion2.empty();
+	                	       cmbSubClasfEstacion2.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	                	       cmbSubClasfEstacion3.empty();
+			                   cmbSubClasfEstacion3.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		                	$.each(objJson, function(i,data){
+		                	    cmbSubClasfEstacion1.append($("<option></option>").attr("value",objJson[i].codigo_sub).text(objJson[i].descripcion)); 
+
+		                	});
+
+		                }
+
+		            });
+				 
+				  
+			});
+			/*-----------------------------------------*/
+            cmbSubClasfEstacion2 = $("#cmbSubClasfEstacion2");
 			lstSubEstacion2 = ${lstSubEstacion2};
 			cmbSubClasfEstacion2.append($("<option></option>").attr("value","000").text("Seleccionar"));
-	    	$.each(lstSubEstacion2, function(i, item) {
-	    		cmbSubClasfEstacion2.append($("<option></option>").attr("value",lstSubEstacion2[i].codigo_sub2).text(lstSubEstacion2[i].descripcion)); 
-	    	});
 			
-			
-	    	cmbSubClasfEstacion3 = $("#cmbSubClasfEstacion3");
+			$('#cmbSubClasfEstacion1').change(function() {   
+				
+				  $.ajax({
+		                url: "/SMEH/selectComboSub1",
+		                type: "GET",
+		                dataType: "json",
+	            		async : false,
+	        			cache : false,
+		                data : {codigo : cmbSubClasfEstacion1.val()},
+		                success: function(objJson) {
+		                	cmbSubClasfEstacion2.empty();
+		                	cmbSubClasfEstacion2.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		                	cmbSubClasfEstacion3.empty();
+		                	cmbSubClasfEstacion3.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		                	$.each(objJson, function(i,data){
+		                		cmbSubClasfEstacion2.append($("<option></option>").attr("value",objJson[i].codigo_sub2).text(objJson[i].descripcion)); 
+
+		                	});
+
+		                }
+
+		            });
+				 
+				  
+			});
+			/*-----------------------------------------*/
+	
+		    cmbSubClasfEstacion3 = $("#cmbSubClasfEstacion3");
 			lstSubEstacion3 = ${lstSubEstacion3};
 			cmbSubClasfEstacion3.append($("<option></option>").attr("value","000").text("Seleccionar"));
-	    	$.each(lstSubEstacion3, function(i, item) {
-	    		cmbSubClasfEstacion3.append($("<option></option>").attr("value",lstSubEstacion3[i].codigo_sub3).text(lstSubEstacion3[i].descripcion)); 
-	    	});
+	    	
+			$('#cmbSubClasfEstacion2').change(function() {   
+				
+				  $.ajax({
+		                url: "/SMEH/selectComboSub2",
+		                type: "GET",
+		                dataType: "json",
+	            		async : false,
+	        			cache : false,
+		                data : {codigo : cmbSubClasfEstacion2.val()},
+		                success: function(objJson) {
+		                	cmbSubClasfEstacion3.empty();
+		                	cmbSubClasfEstacion3.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		                	$.each(objJson, function(i,data){
+		                		cmbSubClasfEstacion3.append($("<option></option>").attr("value",objJson[i].codigo_sub3).text(objJson[i].descripcion)); 
+
+		                	});
+
+		                }
+
+		            });
+				 
+				  
+			});
+	    
+	
 			
+	    	
+			cmbSituacionLegal = $("#cmbSituacionLegal");
+			lstSituacionLegal = ${lstSituacionLegal};
+			cmbSituacionLegal.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	    	$.each(lstSituacionLegal, function(i, item) {
+	    		cmbSituacionLegal.append($("<option></option>").attr("value",lstSituacionLegal[i].codigo).text(lstSituacionLegal[i].descripcion)); 
+	    	});
 	    	
 			cmbEstacionRed = $("#cmbEstacionRed");
 			lstPropositoRed = ${lstPropositoRed};
@@ -194,7 +256,6 @@
 	
 			
 			cmbTipoEstacion = $("#cmbTipoEstacion");
-			
 			lstTipoEstacion = ${lstTipoEstacion};
 			cmbTipoEstacion.append($("<option></option>").attr("value","000").text("Seleccionar"));
 	    	$.each(lstTipoEstacion, function(i, item) {
@@ -210,6 +271,8 @@
 			
 			var btnGuardar = $("#btnGuardar");
 			var btnLimpiar = $("#btnLimpiar");
+			
+		
 			
 			btnGuardar.bind("click",function(event) {
 	  	    	$.ajax({
@@ -271,6 +334,8 @@
 				Limpiar();
 			
 	   	  	});
+			
+			
 			
 			
 			  function Limpiar(){

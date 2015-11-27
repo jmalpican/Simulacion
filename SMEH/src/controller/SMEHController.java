@@ -103,15 +103,15 @@ public class SMEHController {
 		mapa.addAttribute("lstClasificacionEstacion",getJson(lstClasificacionEstacion));
 		
 		List<SubEstacion> lstSubEstacion1 = new ArrayList<SubEstacion>();
-		lstSubEstacion1 = smehService.getListAllSubEstacion1(1);
+		lstSubEstacion1 = smehService.getListAllSubEstacion1(0);
 		mapa.addAttribute("lstSubEstacion1",getJson(lstSubEstacion1));
 	
 		List<SubEstacion2> lstSubEstacion2 = new ArrayList<SubEstacion2>();
-		lstSubEstacion2 = smehService.getListAllSubEstacion2(1);
+		lstSubEstacion2 = smehService.getListAllSubEstacion2(0);
 		mapa.addAttribute("lstSubEstacion2",getJson(lstSubEstacion2));
 		
 		List<SubEstacion3> lstSubEstacion3 = new ArrayList<SubEstacion3>();
-		lstSubEstacion3 = smehService.getListAllSubEstacion3(1);
+		lstSubEstacion3 = smehService.getListAllSubEstacion3(0);
 		mapa.addAttribute("lstSubEstacion3",getJson(lstSubEstacion3));
 		
 		
@@ -195,9 +195,9 @@ public class SMEHController {
 			System.out.println("codigoOmm: "  + codigoOmm);
 			System.out.println("otroCodigo: "  + otroCodigo);
 			System.out.println("mixta: "  + mixta);
-			//System.out.println("fechaInicio: "  + fechaInicio);
+			System.out.println("fechaInicio: "  + fechaInicio);
 			System.out.println("autorizacionIni: "  + autorizacionIni);
-		//	System.out.println("fechaFin: "  + fechaFin);
+			System.out.println("fechaFin: "  + fechaFin);
 			System.out.println("autorizacionFin: "  + autorizacionFin);
 			System.out.println("propiedadEstacion: "  + propiedadEstacion);
 			System.out.println("tipoSituacion: "  + tipoSituacion);
@@ -240,6 +240,49 @@ public class SMEHController {
 		
 		return getJson(resultado);
 		
+	}
+	
+	@RequestMapping(value="/selectComboClasificacion",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String selectComboClasificacion(ModelMap mapa, HttpServletRequest request) throws Exception{
+	
+			
+			    int codigo = getValorParamInt(request, "codigo");
+			    List<SubEstacion> lstSubEstacion1 = new ArrayList<SubEstacion>();
+				lstSubEstacion1 = smehService.getListAllSubEstacion1(codigo);
+				mapa.addAttribute("lstSubEstacion1",getJson(lstSubEstacion1));
+		
+				
+				 return getJson(lstSubEstacion1);
+	}
+	
+	
+	@RequestMapping(value="/selectComboSub1",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String selectComboSub1(ModelMap mapa, HttpServletRequest request) throws Exception{
+	
+			
+			    int codigo = getValorParamInt(request, "codigo");
+			    
+			    List<SubEstacion2> lstSubEstacion2 = new ArrayList<SubEstacion2>();
+				lstSubEstacion2 = smehService.getListAllSubEstacion2(codigo);
+				mapa.addAttribute("lstSubEstacion2",getJson(lstSubEstacion2));
+
+				
+				 return getJson(lstSubEstacion2);
+	}
+	
+	@RequestMapping(value="/selectComboSub2",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String selectComboSub2(ModelMap mapa, HttpServletRequest request) throws Exception{
+	
+			
+			    int codigo = getValorParamInt(request, "codigo");
+			    
+				List<SubEstacion3> lstSubEstacion3 = new ArrayList<SubEstacion3>();
+				lstSubEstacion3 = smehService.getListAllSubEstacion3(codigo);
+				mapa.addAttribute("lstSubEstacion3",getJson(lstSubEstacion3));
+			    
+
+				
+				 return getJson(lstSubEstacion3);
 	}
 	
 	private String getValorParam(HttpServletRequest request, String key) {
