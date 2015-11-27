@@ -99,12 +99,12 @@
 	      </li>
 	      <li class="test">
 	          <a href="#settings1" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informaciï¿½n de los Instrumentos/Sensores
+	              <i class="fa fa-cog"></i> Información de los Instrumentos/Sensores
 	          </a>
 	      </li>
 	      <li class="test">
 	          <a href="#settings2" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n
+	              <i class="fa fa-cog"></i> Informacion de la Instalación/Montaje de los Instrumentos de la Estación
 	          </a>
 	      </li>
 	      <li class="test">
@@ -125,17 +125,18 @@
 	           <jsp:include page="informacionGeneralEstacion.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="messages">
-	          <h2>Informaciï¿½n de la Ubicaciï¿½n de la Estaciï¿½n</h2>
+	          <h2>Información de la Ubicación de la Estación</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings">
-	          <h2>Informaciï¿½n del Observador (incluye capacitaciï¿½n)</h2>
+	          <h2>Información del Observador (incluye capacitación)</h2>
               <jsp:include page="registrarObservador.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings1">
-	          <h2> Informaciï¿½n de los Instrumentos/Sensores</h2>
+	          <h2> Información de los Instrumentos/Sensores</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings2">
-	          <h2>Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de l Estaciï¿½n</h2>
+	          <h2>Informacion de la Instalación/Montaje de los Instrumentos de la Estación</h2>
+	          <jsp:include page="sensor.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings3">
 	          <h2>Mapa</h2>

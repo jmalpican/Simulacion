@@ -53,7 +53,7 @@ public class SMEHController {
 		usuario.setUsuario(usu);
 		usuario.setClave(pass);
 		
-		//usuario = smehService.autenticar(usuario);
+		usuario = smehService.autenticar(usuario);
 		
 		String rspt = "login";
 		if (usuario != null) {
@@ -71,7 +71,7 @@ public class SMEHController {
     }
 	
 	private void cargarPestana1(ModelMap mapa) {
-	/*	List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
+		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
 		lstMetadatos = smehService.getListAll();
 		
 		List<Responsable> lstResponsables = new ArrayList<Responsable>();
@@ -84,7 +84,7 @@ public class SMEHController {
 		
 		mapa.addAttribute("lstMotivo",getJson(lstMotivo));
 		
-		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));*/
+		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));
 		
 		List<Combo> lstSituacionLegal = new ArrayList<Combo>();
 		lstSituacionLegal = smehService.getListAllSituacionLegal();
@@ -189,24 +189,6 @@ public class SMEHController {
 	         Date fechaInicio = df.parse(fecIni);     
 	         Date fechaFin = df.parse(fecFin);    
 	         
-	     	System.out.println("nombreEstacion: "  + nombreEstacion);
-			System.out.println("alias: "  + alias);
-			System.out.println("codigoSenamhi: "  + codigoSenamhi);
-			System.out.println("codigoOmm: "  + codigoOmm);
-			System.out.println("otroCodigo: "  + otroCodigo);
-			System.out.println("mixta: "  + mixta);
-			System.out.println("fechaInicio: "  + fechaInicio);
-			System.out.println("autorizacionIni: "  + autorizacionIni);
-			System.out.println("fechaFin: "  + fechaFin);
-			System.out.println("autorizacionFin: "  + autorizacionFin);
-			System.out.println("propiedadEstacion: "  + propiedadEstacion);
-			System.out.println("tipoSituacion: "  + tipoSituacion);
-			System.out.println("tipoClasEstacion: " + tipoClasEstacion);
-			System.out.println("tipoSubClasEstacion1: " + tipoSubClasEstacion1);
-			System.out.println("tipoSubClasEstacion2: " + tipoSubClasEstacion2);
-			System.out.println("tipoSubClasEstacion3: " + tipoSubClasEstacion3);
-			System.out.println("nombreRed: " + nombreRed);
-			System.out.println("tipoestacionRed: " + tipoestacionRed);
 			
 			estacion.setNombre(nombreEstacion);
 			estacion.setAlias(alias);
