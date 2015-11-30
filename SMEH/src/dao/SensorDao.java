@@ -3,6 +3,8 @@ package dao;
 import java.util.Date;
 import java.util.List;
 
+import bean.Estacion;
+import bean.Sensor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
@@ -25,5 +27,18 @@ public interface SensorDao {
 	List<Combo> getListAllTipoBase();
 
 
+	@Insert("INSERT INTO Mnt_instrumento(ID, SENSOR, FINSTAL, INSTALPOR, " +
+			" INSTALEMP, INSTALAREARESP, DISTANCIA, ALTBASE, MATERIAL, NOTAS, " +
+			" ESQUEMA, GRADINTERF, TSUPERF, TIPOBASE) VALUES"
+			+ "(#{id}, #{sensor}, #{fInstal}, #{instalpor}," +
+			"#{instalemp} ,#{instalarearesp}, #{distancia}, #{altbase}," +
+			"#{material}, #{notas}, #{esquema},#{gradinterf},#{tsuperfbajosensor},#{tipobase}" +
+			")")
+	@SelectKey(
+			keyProperty = "id",
+			before = true,
+			resultType = Integer.class,
+			statement = { "SELECT mntinstrumento_seq.nextval AS id FROM dual" })
+	void registrarSensor(Sensor sensor);
 
 }

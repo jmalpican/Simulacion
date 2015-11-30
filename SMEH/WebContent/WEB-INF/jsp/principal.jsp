@@ -11,7 +11,7 @@
  	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
  	
 	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
-      <link href="/js/pikaday.css" rel="stylesheet">
+      <link href="/SMEH/js/pikaday.css" rel="stylesheet">
 	
     <!-- librerï¿½as opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
@@ -99,12 +99,12 @@
 	      </li>
 	      <li class="test">
 	          <a href="#settings1" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Información de los Instrumentos/Sensores
+	              <i class="fa fa-cog"></i> Informaciï¿½n de los Instrumentos/Sensores
 	          </a>
 	      </li>
 	      <li class="test">
 	          <a href="#settings2" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informacion de la Instalación/Montaje de los Instrumentos de la Estación
+	              <i class="fa fa-cog"></i> Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n
 	          </a>
 	      </li>
 	      <li class="test">
@@ -125,17 +125,17 @@
 	           <jsp:include page="informacionGeneralEstacion.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="messages">
-	          <h2>Información de la Ubicación de la Estación</h2>
+	          <h2>Informaciï¿½n de la Ubicaciï¿½n de la Estaciï¿½n</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings">
-	          <h2>Información del Observador (incluye capacitación)</h2>
+	          <h2>Informaciï¿½n del Observador (incluye capacitaciï¿½n)</h2>
               <jsp:include page="registrarObservador.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings1">
-	          <h2> Información de los Instrumentos/Sensores</h2>
+	          <h2> Informaciï¿½n de los Instrumentos/Sensores</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings2">
-	          <h2>Informacion de la Instalación/Montaje de los Instrumentos de la Estación</h2>
+	          <h2>Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n</h2>
 	          <jsp:include page="sensor.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings3">
@@ -169,10 +169,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery.autocomplete.js"></script>
-    <script src="/js/parsley.min.js"></script>
-    <script src="/js/pikaday.js"></script>
-    <script src="/js/observador.js"></script>
+    <script src="/SMEH/js/jquery.autocomplete.js"></script>
+    <script src="/SMEH/js/parsley.min.js"></script>
+    <script src="/SMEH/js/pikaday.js"></script>
+    <script src="/SMEH/js/observador.js"></script>
 	
 	<script>
 		$(document).ready(function() {

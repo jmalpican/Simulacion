@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import bean.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,22 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import bean.Combo;
-import bean.Estacion;
-import bean.Metadatos;
-import bean.Responsable;
-import bean.SubEstacion;
-import bean.SubEstacion2;
-import bean.SubEstacion3;
-import bean.Usuario;
-
 import service.SMEHService;
+import service.SensorService;
 
 @Controller
 public class SMEHController {
 
 	@Autowired
 	private SMEHService smehService;
+
+	@Autowired
+	private SensorService sensorService;
 	
 	@RequestMapping("/iniLogin")
 	public String hello() {
@@ -72,15 +68,15 @@ public class SMEHController {
 	
 	private void cargarPestana1(ModelMap mapa) {
 		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
-		lstMetadatos = smehService.getListAll();
+//		lstMetadatos = smehService.getListAll();
 		
 		List<Responsable> lstResponsables = new ArrayList<Responsable>();
-		lstResponsables = smehService.getListAllResponsable();
+//		lstResponsables = smehService.getListAllResponsable();
 		
 		mapa.addAttribute("lstResponsables",getJson(lstResponsables));
 		
 		List<Combo> lstMotivo = new ArrayList<Combo>();
-		lstMotivo = smehService.getListAllMotivo();
+//		lstMotivo = smehService.getListAllMotivo();
 		
 		mapa.addAttribute("lstMotivo",getJson(lstMotivo));
 		
@@ -113,7 +109,18 @@ public class SMEHController {
 		List<SubEstacion3> lstSubEstacion3 = new ArrayList<SubEstacion3>();
 		lstSubEstacion3 = smehService.getListAllSubEstacion3(0);
 		mapa.addAttribute("lstSubEstacion3",getJson(lstSubEstacion3));
-		
+
+		List<Combo> listGradoInt = new ArrayList<Combo>();
+		listGradoInt = sensorService.getListAllGradoInterferencia();
+		mapa.addAttribute("lstGradoInterferencia",getJson(listGradoInt));
+
+		List<Combo> listTipoSurperficie = new ArrayList<Combo>();
+		listTipoSurperficie = sensorService.getListAllTipoSuperficie();
+		mapa.addAttribute("lstTipoSurperficie",getJson(listTipoSurperficie));
+
+		List<Combo> listTipoBase = new ArrayList<Combo>();
+		listTipoBase = sensorService.getListAllTipoBase();
+		mapa.addAttribute("lstTipoBase",getJson(listTipoBase));
 		
 	}
 
@@ -222,6 +229,58 @@ public class SMEHController {
 		
 		return getJson(resultado);
 		
+	}
+
+	@RequestMapping(value="/registrarSensor",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String registrarSensor(ModelMap mapa, HttpServletRequest request) throws Exception{
+
+		String resultado = "0";
+		Sensor sensor = new Sensor();
+		try {
+
+			String instrumento = getValorParam(request, "instrumento");
+			String instalado = getValorParam(request, "instalado");
+			String empresa = getValorParam(request, "empresa");
+			String distancia = getValorParam(request, "distancia");
+			String area = getValorParam(request, "area");
+			String material = getValorParam(request, "material");
+			String notas = getValorParam(request, "notas");
+			String altura = getValorParam(request, "altura");
+			String gradoInterferencia = getValorParam(request, "gradoInterferencia");
+			String tipoSuperficie = getValorParam(request, "tipoSuperficie");
+			String tipoBase = getValorParam(request, "tipoBase");
+			String fecIni = getValorParam(request, "fechaIni");
+			String esquema = getValorParam(request, "esquema");
+
+
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			Date fechaInicio = df.parse(fecIni);
+
+			sensor.setSensor(instrumento);
+			sensor.setInstalpor(instalado);
+			sensor.setInstalemp(empresa);
+			sensor.setDistancia(distancia);
+			sensor.setInstalarearesp(area);
+			sensor.setMaterial(material);
+			sensor.setNotas(notas);
+			sensor.setAltbase(altura);
+			sensor.setfInstal(fechaInicio);
+			sensor.setEsquema(esquema);
+
+			sensor.setGradinterf(Integer.parseInt(gradoInterferencia));
+			sensor.setTsuperfbajosensor(Integer.parseInt(tipoSuperficie));
+			sensor.setTipobase(Integer.parseInt(tipoBase));
+
+			sensorService.registrarSensor(sensor);
+			resultado = "1";
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return getJson(resultado);
+
 	}
 	
 	@RequestMapping(value="/selectComboClasificacion",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)

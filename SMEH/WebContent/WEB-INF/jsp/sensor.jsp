@@ -1,71 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
- 
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
- 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
- 
-    
-    <style type="text/css">
-	    body {
-		    margin: 5px;
-		    background: #A6A6A6
-		}
-		/* Tab Navigation */
-		.nav-tabs {
-		    margin: 0;
-		    padding: 0;
-		    border: 0;    
-		}
-		.nav-tabs > li > a {
-		    background: #DADADA;
-		    border-radius: 0;
-		    box-shadow: inset 0 -8px 7px -9px rgba(0,0,0,.4),-2px -2px 5px -2px rgba(0,0,0,.4);
-		}
-		.nav-tabs > li.active > a,
-		.nav-tabs > li.active > a:hover {
-		    background: #F5F5F5;
-		    box-shadow: inset 0 0 0 0 rgba(0,0,0,.4),-2px -3px 5px -2px rgba(0,0,0,.4);
-		}
-		
-		/* Tab Content */
-		.tab-pane {
-		    background: #F5F5F5;
-		    box-shadow: 0 0 4px rgba(0,0,0,.4);
-		    border-radius: 0;
-		    padding: 10px;
-		}
-		
-		li{
-			width: 14%;
-		}
-		
-		a{
-			height: 62px;
-			overflow: hidden;
-		}
-		
-		.test{}
-    
-    </style>
-    
-  </head>
-  <body>
-  
-
-	    
-    <div class="panel panel-primary" align="center">
+<div class="panel panel-primary" align="center">
 		<div class="panel-body padding-body">
 			<div class="modal-body">
 		  <table id="tblMontaje" class="display" cellspacing="0" width="50%">
 		        <tr><td>Instrumento/Sensor :</td><td><input type="text" id="instrumento" class="form-control input-sm chat-input"/></td></tr>
-                <tr><td>Fecha de Instalación:</td><td><input type="text" id="fechaIni" class="form-control input-sm chat-input" /></td></tr>
+                <tr><td>Fecha de Instalaciï¿½n:</td><td><input type="text" id="fechaIni" class="form-control input-sm chat-input" /></td></tr>
                 <tr><td>Instalado por :</td><td><input type="text" id="instalado" class="form-control input-sm chat-input"  /></td></tr>
                 <tr><td>Empresa:</td><td><input type="text" id="empresa" class="form-control input-sm chat-input" /></td></tr>
                 <tr><td>Area responsable:</td><td><input type="text" id="area" class="form-control input-sm chat-input"  /></td></tr>		
@@ -86,23 +24,112 @@
 		</div>
 		
 		<div class="modal-footer">
-					<button class="btn btn-primary" id="btnGuardar">Guardar</button>
-					<button class="btn btn btn-default" id="btnLimpiar">Limpiar</button>
+					<button class="btn btn-primary" id="btnGuardar-se">Guardar</button>
+					<button class="btn btn btn-default" id="btnLimpiar-se">Limpiar</button>
 				</div>
 	</div>
 
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
-	
-  
-    <script src="http://code.jquery.com/jquery.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script>
+	$(document).ready(function() {
 
-    
-       
-	<script>
-		
-	
-	</script>
-  </body>
-</html>
+		var cmbGradoInterferencia=null;
+		var cmbTipoSuperficie=null;
+		var cmbTipoBase=null;
+
+		var instrumento = $("#instrumento");
+		var fechaIni = $("#fechaIni");
+		var instalado = $("#instalado");
+		var empresa	= $("#empresa");
+		var area = $("#area");
+		var distancia = $("#distancia");
+		var altura = $("#altura");
+		var material = $("#material");
+		var notas = $("#notas");
+		var esquema = $("#esquema");
+
+		cmbGradoInterferencia = $("#cmbGradoInterferencia");
+		var lstGradoInterferencia = ${lstGradoInterferencia};
+		cmbGradoInterferencia.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		$.each(lstGradoInterferencia, function(i, item) {
+			cmbGradoInterferencia.append($("<option></option>").attr("value",lstGradoInterferencia[i].codigo).text(lstGradoInterferencia[i].descripcion));
+		});
+
+		cmbTipoSuperficie = $("#cmbTipoSuperficie");
+		var lstTipoSurperficie = ${lstTipoSurperficie};
+		cmbTipoSuperficie.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		$.each(lstTipoSurperficie, function(i, item) {
+			cmbTipoSuperficie.append($("<option></option>").attr("value",lstTipoSurperficie[i].codigo).text(lstTipoSurperficie[i].descripcion));
+		});
+
+		cmbTipoBase = $("#cmbTipoBase");
+		var lstTipoBase = ${lstTipoBase};
+		cmbTipoBase.append($("<option></option>").attr("value","000").text("Seleccionar"));
+		$.each(lstTipoBase, function(i, item) {
+			cmbTipoBase.append($("<option></option>").attr("value",lstTipoBase[i].codigo).text(lstTipoBase[i].descripcion));
+		});
+
+		limpiarForm();
+
+		$("#btnGuardar-se").bind("click",function(event) {
+			$.ajax({
+				url: "/SMEH/registrarSensor",
+				type: "POST",
+				dataType: "json",
+				async : false,
+				cache : false,
+				data : {
+					instrumento  : instrumento.val(),
+					fechaIni  :  fechaIni.val(),
+					instalado  : instalado.val(),
+					empresa  : empresa.val(),
+					area	 : area.val(),
+					distancia :distancia.val(),
+					material  :material.val(),
+					notas  : notas.val(),
+					altura : altura.val(),
+					esquema : esquema.val(),
+					gradoInterferencia  : cmbGradoInterferencia.val(),
+					tipoSuperficie  : cmbTipoSuperficie.val(),
+					tipoBase  : cmbTipoBase.val()
+				}
+			}).done(function(paramJson) {
+				if(paramJson=="1"){
+					alert("Ingreso exitoso.");
+				}
+				else{
+					alert("Datos no se ingresaron");
+				}
+				limpiarForm();
+			}).fail(function( jqXHR, textStatus, errorThrown ) {
+				alert("Datos no grabados");
+			});
+
+		});
+
+		$("#btnLimpiar-se").bind("click",function(event) {
+			limpiarForm();
+		});
+
+		function limpiarForm(){
+			instrumento.val('');
+			fechaIni.val('');
+			instalado.val('');
+			empresa.val('');
+			area.val('');
+			distancia.val('');
+			altura.val('');
+			material.val('');
+			notas.val('');
+			esquema.val('');
+
+			cmbTipoBase.prop('selectedIndex', "000");
+			cmbGradoInterferencia.prop('selectedIndex', "000");
+			cmbTipoSuperficie.prop('selectedIndex', "000");
+		}
+
+	});
+
+</script>

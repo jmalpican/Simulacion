@@ -32,24 +32,10 @@ public class AjaxController {
     public String getSearchResultViaAjax(@RequestBody Capacitacion capacitacion) {
 
         AjaxResponseBody result = new AjaxResponseBody();
+        result.setMessage("");
+        result.setCode("200");
+        result.setResult(capacitacion);
 
-//        if (isValidSearchCriteria(search)) {
-//            capacitacionService.insertarCapacitacion(capacitacion);
-//            if (capacitacion.getId() != 0) {
-                result.setMessage("");
-                result.setCode("200");
-                result.setResult(capacitacion);
-//            }
-//            if (users.size() > 0) {
-//                result.setCode("200");
-//                result.setMessage("");
-//                result.setResult(users);
-//            }
-            //TODO 204
-
-//        } else {
-//            result.setCode("400");
-//        }
         return getJson(result);
     }
 

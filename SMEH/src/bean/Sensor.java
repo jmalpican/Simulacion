@@ -21,6 +21,7 @@ public class Sensor {
     private Integer tipobase;
     private String  material;
     private String  notas;
+	private String esquema;
     
     
     public Integer getId() {
@@ -113,7 +114,6 @@ public class Sensor {
 	public void setEsquema(String esquema) {
 		this.esquema = esquema;
 	}
-	private String  esquema;
     
   
 

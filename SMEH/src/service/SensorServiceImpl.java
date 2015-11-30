@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import bean.Sensor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,8 @@ public class SensorServiceImpl implements SensorService{
 		return sensorDao.getListAllTipoBase();
 	}
 
-	
-
-
-    
-
+	@Override
+	public void registrarSensor(Sensor sensor) {
+		sensorDao.registrarSensor(sensor);
+	}
 }

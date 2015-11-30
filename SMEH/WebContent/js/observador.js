@@ -9,7 +9,7 @@ var pickerFechaIngreso = new Pikaday({
 });
 
 $('#auto-obs').autocomplete({
-    serviceUrl: '/api/getEstacion',
+    serviceUrl: '/SMEH/api/getEstacion',
     onSelect: function (suggestion) {
         if (tableObs) {
             tableObs.destroy();
@@ -41,7 +41,7 @@ $("#observador-form").submit(function(event) {
 
         $.ajax({
             type : "POST",
-            url : "/api/saveObservador",
+            url : "/SMEH/api/saveObservador",
             data : observador,
             dataType : 'json',
             timeout : 100000,
@@ -63,7 +63,7 @@ var populateObservador = function(){
     tableObs = $("#tblObservador").DataTable({
         ajax: {
             type : "GET",
-            url : "/api/getObservador/estacion/"+$("#idest").val(),
+            url : "/SMEH/api/getObservador/estacion/"+$("#idest").val(),
             dataSrc: ""
         },
         columns: [
@@ -128,7 +128,7 @@ var populateCapacitacion = function(observadorId){
     tableCap = $("#tblCapacitacion").DataTable({
         ajax: {
             type : "GET",
-            url : "/api/getCapacitacion/observador/"+observadorId,
+            url : "/SMEH/api/getCapacitacion/observador/"+observadorId,
             dataSrc: ""
         },
         columns: [
@@ -150,7 +150,7 @@ var populateCapacitacion = function(observadorId){
         var dataCap = tableCap.row( $(this).parents('tr') ).data();
         $.ajax({
             type : "DELETE",
-            url : "/api/capacitacion/"+dataCap.id,
+            url : "/SMEH/api/capacitacion/"+dataCap.id,
             timeout : 100000,
             success : function(data) {
                 console.log("SUCCESS: ", data);
@@ -180,7 +180,7 @@ $("#capacitacion-form").submit(function(event) {
 
     $.ajax({
         type : "POST",
-        url : "/api/saveCapacitacion",
+        url : "/SMEH/api/saveCapacitacion",
         data : capacitacion,
         dataType : 'json',
         timeout : 100000,
