@@ -9,7 +9,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title" id="h4TitleCombo">
-					<label id="lblTitleCombo">Fecha:</label>
+					<label id="lblTitleCombo"></label>
 				</h4>
 			</div>
 			<div class="modal-body">

@@ -13,7 +13,7 @@
 	<link href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
       <link href="/SMEH/js/pikaday.css" rel="stylesheet">
 	
-    <!-- librerï¿½as opcionales que activan el soporte de HTML5 para IE8 -->
+    <!-- librerías opcionales que activan el soporte de HTML5 para IE8 -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -50,7 +50,7 @@
 		}
 		
 		li{
-			width: 14%;
+			width: 12.5%;
 		}
 		
 		a{
@@ -59,7 +59,7 @@
 		}
 		
 		.test{}
-
+    
         .error_box {
             display: none;
             background-color: #f2dede;
@@ -99,17 +99,22 @@
 	      </li>
 	      <li class="test">
 	          <a href="#settings1" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informaciï¿½n de los Instrumentos/Sensores
+	              <i class="fa fa-cog"></i> Información de los Instrumentos/Sensores
 	          </a>
 	      </li>
 	      <li class="test">
 	          <a href="#settings2" onclick="getTab(this);" role="tab" data-toggle="tab">
-	              <i class="fa fa-cog"></i> Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n
+	              <i class="fa fa-cog"></i> Informacion de la Instalación/Montaje de los Instrumentos de la Estación
 	          </a>
 	      </li>
 	      <li class="test">
 	          <a href="#settings3" onclick="getTab(this);" role="tab" data-toggle="tab">
 	              <i class="fa fa-cog"></i> Mapa
+	          </a>
+	      </li>
+	      <li class="test">
+	          <a href="#mantCombo" onclick="getTab(this);" role="tab" data-toggle="tab">
+	              <i class="fa fa-cog"></i> Mantenimiento de Combos
 	          </a>
 	      </li>
 	    </ul>
@@ -125,27 +130,33 @@
 	           <jsp:include page="informacionGeneralEstacion.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="messages">
-	          <h2>Informaciï¿½n de la Ubicaciï¿½n de la Estaciï¿½n</h2>
+	          <h2>Información de la Ubicación de la Estación</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings">
-	          <h2>Informaciï¿½n del Observador (incluye capacitaciï¿½n)</h2>
+	          <h2>Información del Observador (incluye capacitación)</h2>
               <jsp:include page="registrarObservador.jsp" />
 	      </div>
 	      <div class="tab-pane fade" id="settings1">
-	          <h2> Informaciï¿½n de los Instrumentos/Sensores</h2>
+	          <h2> Información de los Instrumentos/Sensores</h2>
 	      </div>
 	      <div class="tab-pane fade" id="settings2">
-	          <h2>Informacion de la Instalaciï¿½n/Montaje de los Instrumentos de la Estaciï¿½n</h2>
-	          <jsp:include page="sensor.jsp" />
-	      </div>
+	          <h2>Informacion de la Instalación/Montaje de los Instrumentos de l Estación</h2>
+<jsp:include page="sensor.jsp" />	      
+</div>
 	      <div class="tab-pane fade" id="settings3">
 	          <h2>Mapa</h2>
+	          <jsp:include page="mapa.jsp" />
+	      </div>
+	      <div class="tab-pane fade" id="mantCombo">
+	          <h2>Mantenimiento de Combos</h2>
+	          <jsp:include page="mantenimientoCombo.jsp" />
 	      </div>
 	    </div>
 	    
 	</div>
 	
 	<jsp:include page="combo.jsp" />
+	<jsp:include page="tabla.jsp" />
 	
 	<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -167,8 +178,8 @@
   
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script src="/SMEH/js/jquery.autocomplete.js"></script>
     <script src="/SMEH/js/parsley.min.js"></script>
     <script src="/SMEH/js/pikaday.js"></script>
@@ -201,7 +212,8 @@
 		var btnComboMoti=null;	
 		
 		//MODAL COMBO
-		var tabla=null;		
+		var indMantCombo=null;	
+		var tabla=null;	
 		var divModalCombo=null;		
 		var divModalContenidoCombo=null;		
 		var h4TitleCombo=null;		
@@ -209,8 +221,24 @@
 		var txtCodigoCombo=null;		
 		var txtDescCombo=null;			
 		var btnModalComboGuardar=null;			
-		var btnModalComboCancel=null;		
+		var btnModalComboCancel=null;	
 		
+		//Mantenimiento tabla
+		var divModalTabla=null;		
+		var divModalContenidoTabla=null;		
+		var h4TitleTabla=null;		
+		var lblTitleTabla=null;			
+		var txtDescTabla=null;			
+		var btnModalTablaGuardar=null;			
+		var btnModalTablaCancel=null;	
+		
+// 		Mantenimiento COMBO
+		var tblCombo=null;
+		var btnAddComboDesc=null;
+		var btnTablaCombo=null;
+		var cmbTablaCombo=null;
+
+		var tblTest=null;
 		
 	    function iniVariables(){
 	    	btnModal02Actua = $("#btnModal02Actua");
@@ -242,6 +270,21 @@
 	    	txtDescCombo=$("#txtDescCombo");
 	    	btnModalComboGuardar=$("#btnModalComboGuardar");
 	    	btnModalComboCancel=$("#btnModalComboCancel");
+	    	
+//	 		Mantenimiento COMBO
+			tblCombo=$("#tblCombo");
+			btnAddComboDesc=$("#btnAddComboDesc");
+			btnTablaCombo=$("#btnTablaCombo");
+			cmbTablaCombo=$("#cmbTablaCombo");
+			
+			//Mantenimiento Tabla
+	    	divModalTabla=$("#divModalTabla");
+	    	divModalContenidoTabla=$("#divModalContenidoTabla");
+	    	h4TitleTabla=$("#h4TitleTabla");
+	    	lblTitleTabla=$("#lblTitleTabla");
+	    	txtDescTabla=$("#txtDescTabla");
+	    	btnModalTablaGuardar=$("#btnModalTablaGuardar");
+	    	btnModalTablaCancel=$("#btnModalTablaCancel");
 	    	
 	    }
 		    
@@ -318,8 +361,13 @@
 	   	    			descripcion : txtDescCombo.val()
 	                }
 	            }).done(function(paramJson) {
+					if (indMantCombo != null) {
+						getListaTablaCombo();
+						indMantCombo = null;
+					}
 	            	divModalCombo.modal('hide');
 	 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+	 				indMantCombo = null;
 	 				alert("No actualizo.");
 	  			});
 	 
@@ -339,6 +387,94 @@
 	   			modalCombo('Registrar Motivo');
 	   		} );
 	   		
+	   		//Mantenimiento COMBO
+	   		
+	   		lstTablas = ${lstTablas};
+	   		cmbTablaCombo.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	    	$.each(lstTablas, function(i, item) {
+	    		cmbTablaCombo.append($("<option></option>").attr("value",lstTablas[i].codigo).text(lstTablas[i].tabla)); 
+	    	});
+	   		
+	   		//Iniciar Grilla
+	   	  	tblCombo.DataTable({
+	 	       	    searching: false,
+	 	       	 	bLengthChange: false
+		    });
+	   		
+		 	$('#tblCombo tbody').on( 'click', 'button', function () {
+		 		datos = tblCombo.DataTable().rows($(this).parents('tr')).data().toArray()[0];
+		 		nameTabla = $("#cmbTablaCombo option:selected").text();
+		   		tabla.val(nameTabla);
+	   			modalCombo('Modificar '+nameTabla);
+		   		txtCodigoCombo.val(datos.codigo);
+		   		txtDescCombo.val(datos.descripcion);
+		   		indMantCombo = true;
+			} );
+		   	 
+		   	$('#tblCombo tbody').on( 'click', 'input', function () {
+	   			datos = tblCombo.DataTable().rows($(this).parents('tr')).data().toArray()[0];
+				$.ajax({
+	                url: "/SMEH/eliminarCombo",
+	                type: "POST",
+	                dataType: "json",
+	        		async : false,
+	    			cache : false,
+	                data : {
+	                	tabla		: $("#cmbTablaCombo option:selected").text(),
+	                	codigo 		: datos.codigo
+	                	}
+	            }).done(function(paramJson) {
+	            	getListaTablaCombo();
+	 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+	 				alert("No elimino.");
+	  			});
+			} );
+		   	
+		   	btnAddComboDesc.bind("click",function(event) {
+		 		nameTabla = $("#cmbTablaCombo option:selected").text();
+		   		tabla.val(nameTabla);
+	   			modalCombo('Registrar '+nameTabla);
+	   			indMantCombo = true;
+	   		} );
+		   	
+		   	btnTablaCombo.bind("click",function(event) {
+		   		indMantCombo = true;
+	   			modalTabla('Registrar Tabla');
+	   		} );
+		   	
+		   	//Mantenimiento Tabla
+		   	btnModalTablaGuardar.bind("click",function(event) {
+	   	    	$.ajax({
+	                url: "/SMEH/createTablaCombo",
+	                type: "POST",
+	                dataType: "json",
+            		async : false,
+        			cache : false,
+	                data : {
+	   	    			tabla : txtDescTabla.val()
+	                }
+	            }).done(function(paramJson) {
+	            	cmbTablaCombo.find('option').remove().end();
+	    	   		cmbTablaCombo.append($("<option></option>").attr("value","000").text("Seleccionar"));
+	    	    	$.each(paramJson, function(i, item) {
+	    	    		cmbTablaCombo.append($("<option></option>").attr("value",paramJson[i].codigo).text(paramJson[i].tabla)); 
+	    	    	});
+	            	divModalTabla.modal('hide');
+	 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+	 				alert("No actualizo.");
+	  			});
+	 
+	   	  	});
+	   		
+	   		btnModalTablaCancel.bind("click",function(event) {
+	   			divModalTabla.modal('hide');
+	   		} );
+	   		
+	   		cmbTablaCombo.change(function() {
+	   			getListaTablaCombo();
+	        });
+	   		
+	   		
 	   	        	  	
 	    }
 		
@@ -349,11 +485,48 @@
 				total=$("div.container").width();
 				restar=$("li.active").width();
 				restante=total-restar;
-				uno=restante/6;
+				uno=restante/7;
 				
 				$("li").width(uno+"px");
 				$("li.active").width("auto");
 			}, 50);
+		}
+		
+		function getListaTablaCombo(){
+			
+			$.ajax({
+                url: "/SMEH/getAllCombo",
+                type: "POST",
+                dataType: "json",
+        		async : false,
+    			cache : false,
+                data : {
+   	    			tabla : $("#cmbTablaCombo option:selected").text()
+                }
+            }).done(function(paramJson) {
+            	tblCombo.DataTable().destroy();
+            	tblCombo.DataTable({
+			    	data:paramJson,
+			    	columns: [
+			    	          {data:'codigo', sClass: 'text-left'},
+			    	          {data:'descripcion', sClass: 'text-left'},
+			    	          {
+			    	        	  data: null,
+			    	        	  defaultContent: '<button type="button" class="btn btn-primary">Modificar</button>', 
+			    	        	  sClass: 'text-center'
+			    	          },
+			    	          {
+			    	        	  data: null,
+			    	        	  defaultContent: '<input type="button" class="btn btn-default" value="Eliminar">', 
+			    	        	  sClass: 'text-center'
+			    	          }
+			    	         ],
+		 	       	    searching: false,
+		 	       	 	bLengthChange: false
+			    });
+ 			}).fail(function( jqXHR, textStatus, errorThrown ) {
+ 				alert("No hay.");
+  			});
 		}
 		
 		function getListaMetadatos(lstMetadatos){
@@ -388,6 +561,12 @@
 			txtCodigoCombo.val('');
 	    	txtDescCombo.val('');
 	       	divModalCombo.modal({backdrop: 'static', keyboard: false, show: true});
+		}
+		
+		function modalTabla(title){
+			lblTitleTabla.html(title);
+	    	txtDescTabla.val('');
+	       	divModalTabla.modal({backdrop: 'static', keyboard: false, show: true});
 		}
 	
 	</script>

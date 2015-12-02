@@ -1,18 +1,20 @@
 package dao;
 
-import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.mapping.StatementType;
 import org.springframework.stereotype.Component;
 
 import bean.Combo;
 import bean.Estacion;
+import bean.Mapa;
 import bean.Metadatos;
-import bean.Observador;
 import bean.Responsable;
 import bean.SubEstacion;
 import bean.SubEstacion2;
@@ -40,9 +42,26 @@ public interface SMEHDao {
 	@Insert("INSERT INTO ${tabla} (descripcion ) VALUES (#{descripcion} )")
 	void guardarCombo(Combo combo);
 
+	@Select("Select id, imagen from imagen where id = #{id}")
+	Mapa descargar(int id);
 	
+	@Update("UPDATE  ${tabla} SET descripcion = #{descripcion} where codigo = #{codigo}")
+	void actualizarCombo(Combo combo);
+
+	@Delete("Delete from  ${tabla} where codigo = #{codigo}")
+	void eliminarCombo(Combo combo);
+
+	@Select("SELECT codigo, tabla FROM combo")
+	List<Combo> getListAllTablas();
 	
-	@Insert("INSERT INTO Estacion(ID, NOMBRE, ALIAS, COD_SENAMHI, " +
+	@Select("SELECT codigo, descripcion FROM ${tabla}")
+	List<Combo> getListAllCombo(Combo combo);
+
+	@Select("{CALL createTablaCombo(#{tabla, mode=IN, jdbcType=VARCHAR})}")
+	@Options(statementType = StatementType.CALLABLE)
+	void createTablaCombo(String tabla);
+
+@Insert("INSERT INTO Estacion(ID, NOMBRE, ALIAS, COD_SENAMHI, " +
 	 		" COD_OMM,COD_OTRO,COD_CLASESTAC,COD_SUB1ESTAC,COD_SUB2ESTAC,COD_SUB3ESTAC, " +
 	 		" TIPO_ESTAC,ESTAC_MIXTA,FEC_INI,AUTORIZA_INI,FEC_FIN,AUTORIZA_FIN,PROPIEDAD,SITUACION_LEGAL,NOMBRE_RED,PROPOSITO_RED) VALUES"
 	            + "(#{id}, #{nombre}, #{alias}, #{codSenamhi}," +

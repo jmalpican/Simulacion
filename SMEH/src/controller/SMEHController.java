@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,27 +11,37 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import bean.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-
 import service.SMEHService;
 import service.SensorService;
+import bean.Combo;
+import bean.Estacion;
+import bean.Metadatos;
+import bean.Responsable;
+import bean.Sensor;
+import bean.SubEstacion;
+import bean.SubEstacion2;
+import bean.SubEstacion3;
+import bean.Usuario;
+
+import com.google.gson.Gson;
 
 @Controller
 public class SMEHController {
 
 	@Autowired
 	private SMEHService smehService;
-
+	
 	@Autowired
 	private SensorService sensorService;
 	
@@ -54,30 +66,33 @@ public class SMEHController {
 		String rspt = "login";
 		if (usuario != null) {
 			cargarPestana1(mapa);
+			cargarMantCombo(mapa);
 			rspt = "principal";
 			
 		}
 		return rspt;
 	}
-
-    @RequestMapping("/principal")
-    public String principal(ModelMap mapa,HttpServletRequest request) {
-
-        return "principal";
-    }
 	
+	private void cargarMantCombo(ModelMap mapa) {
+		List<Combo> lstTablas = new ArrayList<Combo>();
+		lstTablas = smehService.getListAllTablas();
+		
+		mapa.addAttribute("lstTablas",getJson(lstTablas));
+	}
+
 	private void cargarPestana1(ModelMap mapa) {
 		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
 		lstMetadatos = smehService.getListAll();
+		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));
 		
 		List<Responsable> lstResponsables = new ArrayList<Responsable>();
 		lstResponsables = smehService.getListAllResponsable();
-		
 		mapa.addAttribute("lstResponsables",getJson(lstResponsables));
 		
+		Combo combo = new Combo();
+		combo.setTabla("motivo");
 		List<Combo> lstMotivo = new ArrayList<Combo>();
-		lstMotivo = smehService.getListAllMotivo();
-		
+		lstMotivo = smehService.getListAllCombo(combo);
 		mapa.addAttribute("lstMotivo",getJson(lstMotivo));
 		
 		mapa.addAttribute("lstMetadatos",getJson(lstMetadatos));
@@ -162,7 +177,72 @@ public class SMEHController {
 		return "true";
 	}
 	
-	@RequestMapping(value="/registrarInformacionEstacion",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/eliminarCombo",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String eliminarCombo(ModelMap mapa, HttpServletRequest request) throws Exception{
+		try {
+			Combo combo = new Combo();
+			combo.setCodigo(getValorParamInt(request, "codigo"));
+			combo.setTabla(getValorParam(request, "tabla"));
+			smehService.eliminarCombo(combo);
+			
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+		
+		
+		return "true";
+	}
+	
+	@RequestMapping(value="/loadImage/{id}",method=RequestMethod.GET)
+	public void obtenerImagenLote(@PathVariable String id, HttpServletResponse response){
+		
+        // Consulta a la bd por ID 
+	    byte[] image =  smehService.descargar(Integer.parseInt(id));
+	    
+		response.setHeader("Content-Length", String.valueOf(image.length));
+		OutputStream os = null;
+		
+		try {
+            os = response.getOutputStream();
+		    os.write(image);
+		} catch (Exception e) {
+			  System.out.println(e);
+		} finally {
+			try {
+				if (os != null){
+					os.close();
+			        os.flush();
+				}
+			} catch (IOException ex) {
+				System.out.println(ex);
+			}
+		}
+
+	}
+	
+	@RequestMapping(value="/createTablaCombo",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String createTablaCombo(ModelMap mapa, HttpServletRequest request) throws Exception{
+		List<Combo> lstTablas = new ArrayList<Combo>();
+		try {
+			smehService.createTablaCombo(getValorParam(request, "tabla"));
+			lstTablas = smehService.getListAllTablas();
+		} catch (Exception e) {
+			System.out.print(e);
+		}
+		return getJson(lstTablas);
+	}
+	
+	@RequestMapping(value="/getAllCombo",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getAllCombo(ModelMap mapa, HttpServletRequest request) throws Exception{
+		Combo combo = new Combo();
+		combo.setTabla(getValorParam(request, "tabla"));
+		List<Combo> lstCombo = new ArrayList<Combo>();
+		lstCombo = smehService.getListAllCombo(combo);
+		return getJson(lstCombo);
+	}
+	
+
+@RequestMapping(value="/registrarInformacionEstacion",method={RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String registrarInformacionEstacion(ModelMap mapa, HttpServletRequest request) throws Exception{
 
 		String resultado = "0";
@@ -345,5 +425,6 @@ public class SMEHController {
 	private String getJson(Object object) {
 		return new Gson().toJson(object);
 	}
+	
 
 }

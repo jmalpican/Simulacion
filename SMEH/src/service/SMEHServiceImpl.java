@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bean.Capacitacion;
 import bean.Combo;
 import bean.Estacion;
+import bean.Mapa;
 import bean.Metadatos;
 import bean.Responsable;
 import bean.SubEstacion;
@@ -49,7 +49,37 @@ public class SMEHServiceImpl implements SMEHService{
 
 	@Override
 	public void guardarCombo(Combo combo) {
-		smehDao.guardarCombo(combo);
+		if (combo.getCodigo() != null) {
+			smehDao.actualizarCombo(combo);
+		}else{
+			smehDao.guardarCombo(combo);
+		}
+	}
+
+	@Override
+	public byte[] descargar(int id) {
+		Mapa mapa = smehDao.descargar(id);
+		return mapa.getImagen();
+	}
+
+	@Override
+	public void eliminarCombo(Combo combo) {
+		smehDao.eliminarCombo(combo);
+	}
+
+	@Override
+	public List<Combo> getListAllTablas() {
+		return smehDao.getListAllTablas();
+	}
+
+	@Override
+	public List<Combo> getListAllCombo(Combo combo) {
+		return smehDao.getListAllCombo(combo);
+	}
+
+	@Override
+	public void createTablaCombo(String tabla) {
+		smehDao.createTablaCombo(tabla);
 	}
 
 	@Override
@@ -104,4 +134,5 @@ public class SMEHServiceImpl implements SMEHService{
 	public List<Estacion> getListAllEstaciones() {
 		return smehDao.getListAllEstaciones();
 	}
+
 }

@@ -24,10 +24,18 @@ public interface SMEHService {
 	void actualizarMetadatos(Metadatos metadatos);
 
 	void guardarCombo(Combo combo);
-	
-	
-	
-	void registrarEstacion(Estacion estacion);
+
+	byte[] descargar(int parseInt);
+
+	void eliminarCombo(Combo combo);
+
+	List<Combo> getListAllTablas();
+
+	List<Combo> getListAllCombo(Combo combo);
+
+	void createTablaCombo(String valorParam);
+
+void registrarEstacion(Estacion estacion);
 	List<Combo> getListAllSituacionLegal();
 	List<Combo> getListAllTipoEstacion();
 	List<Combo> getListAllPropositoRed();
@@ -36,5 +44,4 @@ public interface SMEHService {
 	List<SubEstacion2> getListAllSubEstacion2(int codigo);
 	List<SubEstacion3> getListAllSubEstacion3(int codigo);
 	List<Estacion> getListAllEstaciones();
-
 }
