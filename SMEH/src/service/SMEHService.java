@@ -35,5 +35,6 @@ public interface SMEHService {
 	List<SubEstacion>  getListAllSubEstacion1(int codigo);
 	List<SubEstacion2> getListAllSubEstacion2(int codigo);
 	List<SubEstacion3> getListAllSubEstacion3(int codigo);
+	List<Estacion> getListAllEstaciones();
 
 }

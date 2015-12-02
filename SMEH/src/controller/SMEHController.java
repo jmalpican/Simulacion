@@ -68,15 +68,15 @@ public class SMEHController {
 	
 	private void cargarPestana1(ModelMap mapa) {
 		List<Metadatos> lstMetadatos = new ArrayList<Metadatos>();
-//		lstMetadatos = smehService.getListAll();
+		lstMetadatos = smehService.getListAll();
 		
 		List<Responsable> lstResponsables = new ArrayList<Responsable>();
-//		lstResponsables = smehService.getListAllResponsable();
+		lstResponsables = smehService.getListAllResponsable();
 		
 		mapa.addAttribute("lstResponsables",getJson(lstResponsables));
 		
 		List<Combo> lstMotivo = new ArrayList<Combo>();
-//		lstMotivo = smehService.getListAllMotivo();
+		lstMotivo = smehService.getListAllMotivo();
 		
 		mapa.addAttribute("lstMotivo",getJson(lstMotivo));
 		

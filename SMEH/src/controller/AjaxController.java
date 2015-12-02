@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import service.CapacitacionService;
 import service.ObservadorService;
+import service.SMEHService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
@@ -28,6 +29,9 @@ public class AjaxController {
     @Autowired
     ObservadorService observadorService;
 
+    @Autowired
+    SMEHService smehService;
+
     @RequestMapping(value="/api/capacitacion/create")
     public String getSearchResultViaAjax(@RequestBody Capacitacion capacitacion) {
 
@@ -41,15 +45,15 @@ public class AjaxController {
 
     @RequestMapping(value="/api/getEstacion",method={RequestMethod.GET},produces=MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String getEstacion(ModelMap mapa, HttpServletRequest request) throws Exception{
+        List<Estacion> estaciones = smehService.getListAllEstaciones();
+
         List<Suggestion> listSuggestion = new ArrayList<Suggestion>();
-        Suggestion sug1 = new Suggestion();
-        sug1.setData("1");
-        sug1.setValue("Estacion 1");
-        Suggestion sug2 = new Suggestion();
-        sug2.setData("2");
-        sug2.setValue("Estacion 2");
-        listSuggestion.add(sug1);
-        listSuggestion.add(sug2);
+        for (Estacion estacion: estaciones) {
+            Suggestion sug = new Suggestion();
+            sug.setData(String.valueOf(estacion.getId()));
+            sug.setValue(estacion.getNombre());
+            listSuggestion.add(sug);
+        }
 
         SuggestionResult suggestionResult = new SuggestionResult();
         suggestionResult.setSuggestions(listSuggestion);

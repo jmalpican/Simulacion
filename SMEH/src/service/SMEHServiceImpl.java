@@ -100,7 +100,8 @@ public class SMEHServiceImpl implements SMEHService{
 		return smehDao.getListAllSubEstacion3(codigo);
 	}
 
-
-    
-
+	@Override
+	public List<Estacion> getListAllEstaciones() {
+		return smehDao.getListAllEstaciones();
+	}
 }

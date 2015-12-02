@@ -82,4 +82,6 @@ public interface SMEHDao {
 	@Select("SELECT CODIGO_SUB3, descripcion FROM SUB_ESTACION3 where CODIGO_SUB2 = #{codigo_sub}")
 	List<SubEstacion3> getListAllSubEstacion3(int codigo);
 
+	@Select("select id, alias, nombre from ESTACION")
+	List<Estacion> getListAllEstaciones();
 }
